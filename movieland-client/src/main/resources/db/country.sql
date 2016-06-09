@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS country CASCADE;
+CREATE TABLE country
+(
+  id   SERIAL PRIMARY KEY
+ ,name VARCHAR(100)
+);
