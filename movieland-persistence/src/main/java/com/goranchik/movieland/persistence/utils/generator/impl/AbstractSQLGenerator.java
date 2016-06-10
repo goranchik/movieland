@@ -1,6 +1,7 @@
 package com.goranchik.movieland.persistence.utils.generator.impl;
 
 import com.goranchik.movieland.persistence.utils.generator.SQLGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import java.io.IOException;
@@ -15,6 +16,12 @@ import static com.goranchik.movieland.tools.Constants.*;
  * Created by Ihor on 6/8/2016.
  */
 public abstract class AbstractSQLGenerator implements SQLGenerator {
+
+    @Autowired
+    String getDataPath;
+
+    @Autowired
+    String getTablesPath;
 
     @Override
     public abstract String getPopulateTableSQL(String tableName, Properties props);
@@ -32,11 +39,11 @@ public abstract class AbstractSQLGenerator implements SQLGenerator {
 
     @Override
     public Resource getTableResource(String tableName){
-        return new ClassPathResource(PATH_SCRIPT + tableName + SQL);
+        return new ClassPathResource(getTablesPath + tableName + SQL);
     }
 
     @Override
     public Resource getDataResource(String tableName){
-        return new ClassPathResource(PATH_DATA + tableName + TXT);
+        return new ClassPathResource(getDataPath + tableName + TXT);
     }
 }

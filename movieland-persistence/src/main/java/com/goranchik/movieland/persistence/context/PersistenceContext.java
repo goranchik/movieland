@@ -35,6 +35,12 @@ public class PersistenceContext {
     @Value("${jdbc.password}")
     private String jdbcPassword;
 
+    @Value("${jdbc.data.path}")
+    private String jdbcDataPath;
+
+    @Value("${jdbc.tables.path}")
+    private String jdbcTablesPath;
+
     @Value("${jdbc.sql.find.genre.by.id}")
     private String jdbcFindGenreByIdSQL;
 
@@ -84,6 +90,16 @@ public class PersistenceContext {
     @Bean
     public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(dataSource());
+    }
+
+    @Bean
+    public String getDataPath() {
+        return jdbcDataPath;
+    }
+
+    @Bean
+    public String getTablesPath() {
+        return jdbcTablesPath;
     }
 
     @Bean

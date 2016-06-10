@@ -4,8 +4,6 @@ package com.goranchik.movieland.tools;
  * Created by Ihor on 6/8/2016.
  */
 public final class Constants {
-    public static final String PATH_SCRIPT = "db/";
-    public static final String PATH_DATA = "db/data/";
     public static final String TXT = ".txt";
     public static final String SQL = ".sql";
     public static final String SQL_WRAPPER = "'";
