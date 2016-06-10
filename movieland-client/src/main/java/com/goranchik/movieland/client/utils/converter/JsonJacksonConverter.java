@@ -10,20 +10,15 @@ import java.io.IOException;
 
 @Service
 public class JsonJacksonConverter {
-    private final Logger log = LoggerFactory.getLogger(getClass());
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public String toJson(Object obj) {
         String json = "";
-        log.info("Start transform object {} to json ", obj);
-        long startTime = System.currentTimeMillis();
         try {
             json = objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        long time = System.currentTimeMillis() - startTime;
-        log.info("Json {} is received. It took {} ms", json, time);
         return json;
     }
 
