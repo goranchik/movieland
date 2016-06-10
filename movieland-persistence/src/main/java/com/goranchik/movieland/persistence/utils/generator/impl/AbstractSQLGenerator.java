@@ -1,5 +1,6 @@
 package com.goranchik.movieland.persistence.utils.generator.impl;
 
+import com.goranchik.movieland.persistence.utils.PropertyDBService;
 import com.goranchik.movieland.persistence.utils.generator.SQLGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -7,7 +8,6 @@ import org.springframework.core.io.Resource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Properties;
 import java.util.stream.Stream;
 
 import static com.goranchik.movieland.tools.Constants.*;
@@ -23,8 +23,8 @@ public abstract class AbstractSQLGenerator implements SQLGenerator {
     @Autowired
     String getTablesPath;
 
-    @Override
-    public abstract String getPopulateTableSQL(String tableName, Properties props);
+    @Autowired
+    PropertyDBService propertyDBService;
 
     @Override
     public String getCreateTableSQL(String tableName) {

@@ -9,6 +9,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
+
+import static com.goranchik.movieland.persistence.utils.Table.MOVIE;
+import static com.goranchik.movieland.tools.Constants.FIELD_ID;
 
 /**
  * Created by Ihor on 6/8/2016.
@@ -18,19 +22,19 @@ public class MovieRowMapper implements RowMapper<Movie> {
 
     private GenreDao genreDao;
     private CountryDao countryDao;
+    private Properties props;
 
-    // TODO - replace hardcode column names
     @Override
     public Movie mapRow(ResultSet rs, int rowNum) throws SQLException {
         Movie movie = new Movie();
-        int movieId = rs.getInt("id");
+        int movieId = rs.getInt(FIELD_ID);
         movie.setId(movieId);
-        movie.setName(rs.getString("name"));
-        movie.setNameOriginal(rs.getString("name_original"));
-        movie.setYear(rs.getInt("year"));
-        movie.setDescription(rs.getString("description"));
-        movie.setRating(rs.getFloat("rating"));
-        movie.setPrice(rs.getFloat("price"));
+        movie.setName(rs.getString(MOVIE.fieldSet(props).get(0)));
+        movie.setNameOriginal(rs.getString(MOVIE.fieldSet(props).get(1)));
+        movie.setYear(rs.getInt(MOVIE.fieldSet(props).get(2)));
+        movie.setDescription(rs.getString(MOVIE.fieldSet(props).get(3)));
+        movie.setRating(rs.getFloat(MOVIE.fieldSet(props).get(4)));
+        movie.setPrice(rs.getFloat(MOVIE.fieldSet(props).get(5)));
         movie.setGenres(genreDao.findByMovieId(movieId));
         movie.setCountries(countryDao.findByMovieId(movieId));
         return movie;

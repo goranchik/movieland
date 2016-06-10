@@ -16,4 +16,5 @@ public final class Constants {
     public static final String DECIMAL_DELIMITER = ":";
     public static final String INSERT_SQL = "INSERT INTO %s (%s) VALUES (%s);\n";
     public static final String GET_ID_BY_NAME_SQL = "(SELECT id FROM %s WHERE name = '%s')";
+    public static final String FIELD_ID = "id";
 }

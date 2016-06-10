@@ -1,6 +1,5 @@
 package com.goranchik.movieland.persistence.utils.generator.impl;
 
-import com.goranchik.movieland.persistence.utils.Table;
 import com.goranchik.movieland.persistence.utils.generator.SQLGenerator;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
@@ -12,6 +11,7 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.goranchik.movieland.persistence.utils.Table.GENRE;
 import static com.goranchik.movieland.tools.Constants.*;
 
 /**
@@ -24,8 +24,8 @@ public class GenreSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
     private StringBuilder resultSQL = new StringBuilder();
 
     @Override
-    public String getPopulateTableSQL(String tableName, Properties props) {
-        String fields = props.getProperty(Table.valueOf(tableName.toUpperCase()).fields());
+    public String getPopulateTableSQL(String tableName) {
+        Properties props = propertyDBService.getDBProperties();
         try (Stream<String> stream = Files.lines(Paths.get(getDataResource(tableName).getURI()))) {
             genres = stream.collect(Collectors.toList());
         } catch (IOException e) {
@@ -33,7 +33,7 @@ public class GenreSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
         }
         resultSQL.append(getCreateTableSQL(tableName));
         genres.stream().forEach(result ->
-                resultSQL.append(String.format(INSERT_SQL, tableName, fields,
+                resultSQL.append(String.format(INSERT_SQL, tableName, GENRE.fields(props),
                         SQL_WRAPPER + result + SQL_WRAPPER)));
         return resultSQL.toString();
     }

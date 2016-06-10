@@ -19,12 +19,13 @@ import static com.goranchik.movieland.tools.Constants.*;
  */
 @Service(SQLGenerator.USER_SQL_GENERATOR)
 public class UserSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGenerator {
+
     private List<String> users = new ArrayList<>();
     private StringBuilder resultSQL = new StringBuilder();
 
     @Override
-    public String getPopulateTableSQL(String tableName, Properties props) {
-        String fields = props.getProperty(Table.valueOf(tableName.toUpperCase()).fields());
+    public String getPopulateTableSQL(String tableName) {
+        Properties props = propertyDBService.getDBProperties();
         try (Stream<String> stream = Files.lines(Paths.get(getDataResource(tableName).getURI()))) {
             StringBuilder temp = new StringBuilder();
             stream.forEach(
@@ -48,7 +49,8 @@ public class UserSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGen
         }
         resultSQL.append(getCreateTableSQL(tableName));
         users.stream().forEach(result ->
-                resultSQL.append(String.format(INSERT_SQL, tableName, fields, result)));
+                resultSQL.append(String.format(INSERT_SQL, tableName,
+                        Table.valueOf(tableName.toUpperCase()).fields(props), result)));
 
         return resultSQL.toString();
     }

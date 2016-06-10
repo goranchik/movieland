@@ -5,6 +5,7 @@ import com.goranchik.movieland.persistence.dao.GenreDao;
 import com.goranchik.movieland.persistence.dao.MovieDao;
 import com.goranchik.movieland.persistence.dao.jdbc.mapper.MovieRowMapper;
 import com.goranchik.movieland.persistence.entity.Movie;
+import com.goranchik.movieland.persistence.utils.PropertyDBService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +36,16 @@ public class JdbcMovieDao implements MovieDao {
     @Autowired
     private CountryDao countryDao;
 
+    @Autowired
+    private PropertyDBService propertyDBService;
+
     @Override
     public Movie findById(int id) {
         log.info("Start query to find movie by id {} from DB", id);
         long startTime = System.currentTimeMillis();
         Movie movie = jdbcTemplate.queryForObject(findMovieByIdSQL,
-                new Object[]{id}, new MovieRowMapper(genreDao, countryDao));
+                new Object[]{id},
+                new MovieRowMapper(genreDao, countryDao, propertyDBService.getDBProperties()));
         log.info("Finish query to find movie by id {} from DB. It took {} ms",
                 id, System.currentTimeMillis() - startTime);
         return movie;
@@ -50,7 +55,8 @@ public class JdbcMovieDao implements MovieDao {
     public List<Movie> findAll() {
         log.info("Start query to find all movies from DB");
         long startTime = System.currentTimeMillis();
-        List<Movie> countries = jdbcTemplate.query(findAllMoviesSQL, new MovieRowMapper(genreDao, countryDao));
+        List<Movie> countries = jdbcTemplate.query(findAllMoviesSQL,
+                new MovieRowMapper(genreDao, countryDao, propertyDBService.getDBProperties()));
         log.info("Finish query to find all movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
         return countries;
     }

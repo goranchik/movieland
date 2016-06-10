@@ -19,12 +19,13 @@ import static com.goranchik.movieland.persistence.utils.Table.*;
  */
 @Service(SQLGenerator.REVIEW_SQL_GENERATOR)
 public class ReviewSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGenerator {
+
     private List<String> reviews = new ArrayList<>();
     private StringBuilder resultSQL = new StringBuilder();
 
     @Override
-    public String getPopulateTableSQL(String tableName, Properties props) {
-        String fields = props.getProperty(Table.valueOf(tableName.toUpperCase()).fields());
+    public String getPopulateTableSQL(String tableName) {
+        Properties props = propertyDBService.getDBProperties();
         try (Stream<String> stream = Files.lines(Paths.get(getDataResource(tableName).getURI()))) {
             StringBuilder temp = new StringBuilder();
             final int[] i = {0};
@@ -60,7 +61,8 @@ public class ReviewSQLGeneratorImpl extends AbstractSQLGenerator implements SQLG
 
         resultSQL.append(getCreateTableSQL(tableName));
         reviews.stream().forEach(result ->
-                resultSQL.append(String.format(INSERT_SQL, tableName, fields, result)));
+                resultSQL.append(String.format(INSERT_SQL, tableName,
+                        Table.valueOf(tableName.toUpperCase()).fields(props), result)));
 
         return resultSQL.toString();
     }
