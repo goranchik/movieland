@@ -1,12 +1,10 @@
 package com.goranchik.movieland.persistence.utils.generator.impl;
 
-
+import com.goranchik.movieland.persistence.utils.Table;
 import com.goranchik.movieland.persistence.utils.generator.SQLGenerator;
 import org.springframework.stereotype.Service;
 
-
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -28,10 +26,8 @@ public class MovieSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
 
     @Override
     public String getPopulateTableSQL(String tableName, Properties props) {
-        String fields = props.getProperty(MOVIE.fields());
-        try (Stream<String> stream = Files.lines(Paths.get(getClass().getClassLoader()
-                .getResource(PATH_DATA + tableName + TXT)
-                .toURI()))) {
+        String fields = props.getProperty(Table.valueOf(tableName.toUpperCase()).fields());
+        try (Stream<String> stream = Files.lines(Paths.get(getDataResource(tableName).getURI()))) {
             StringBuilder temp = new StringBuilder();
             final int[] i = {0};
             final String[] names = new String[2];
@@ -44,9 +40,9 @@ public class MovieSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
                                     names[0] = result.split(MOIVE_DELIMITER)[0];
                                     names[1] = result.split(MOIVE_DELIMITER)[1];
                                     temp.append(SQL_WRAPPER).append(names[0]).append(SQL_WRAPPER)
-                                        .append(SQL_DELIMITER)
-                                        .append(SQL_WRAPPER).append(names[1].replace("'", "''"))
-                                        .append(SQL_WRAPPER).append(SQL_DELIMITER);
+                                            .append(SQL_DELIMITER)
+                                            .append(SQL_WRAPPER).append(names[1].replace(SINGLE_QUOTE, DOUBLE_QUOTE))
+                                            .append(SQL_WRAPPER).append(SQL_DELIMITER);
                                     break;
                                 case 2:
                                     temp.append(result).append(SQL_DELIMITER);
@@ -61,11 +57,11 @@ public class MovieSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
                                     break;
                                 case 5:
                                     temp.append(SQL_WRAPPER).append(result)
-                                        .append(SQL_WRAPPER).append(SQL_DELIMITER);
+                                            .append(SQL_WRAPPER).append(SQL_DELIMITER);
                                     break;
                                 case 6:
                                     temp.append(result.substring(result.indexOf(DECIMAL_DELIMITER) + 1))
-                                        .append(SQL_DELIMITER);
+                                            .append(SQL_DELIMITER);
                                     break;
                                 case 7:
                                     temp.append(result.substring(result.indexOf(DECIMAL_DELIMITER) + 1));
@@ -80,48 +76,44 @@ public class MovieSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
                         }
                     }
             );
-            if (temp.length()!=0) {
+            if (temp.length() != 0) {
                 movies.add(temp.toString());
             }
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        resultSQL.append(getCreateTableSQL(MOVIE.name().toLowerCase()));
+        resultSQL.append(getCreateTableSQL(tableName));
         movies.stream().forEach(result ->
                 resultSQL.append(String.format(INSERT_SQL, tableName, fields, result)));
 
-        resultSQL.append(getCreateTableSQL(COUNTRY.name().toLowerCase()));
+        resultSQL.append(getCreateTableSQL(COUNTRY.nameLowerCase()));
         countries.stream().forEach(result ->
                 resultSQL.append(String.format(INSERT_SQL,
                         COUNTRY.name(),
                         props.getProperty(COUNTRY.fields()), SQL_WRAPPER + result + SQL_WRAPPER)));
 
-        resultSQL.append(getCreateTableSQL(MOVIE_COUNTRY.name().toLowerCase()));
+        resultSQL.append(getCreateTableSQL(MOVIE_COUNTRY.nameLowerCase()));
         movie_country.entrySet().stream().forEach(movie ->
-            {
                 movie.getValue().stream().forEach(country ->
-                    resultSQL.append(String.format(INSERT_SQL,
-                            MOVIE_COUNTRY.name(),
-                            props.getProperty(MOVIE_COUNTRY.fields()),
-                            String.format(GET_ID_BY_NAME_SQL, MOVIE.name(), movie.getKey()) + SQL_DELIMITER +
-                                    String.format(GET_ID_BY_NAME_SQL, COUNTRY.name(), country)
-                        )
-                    ));
-            }
+                        resultSQL.append(String.format(INSERT_SQL,
+                                MOVIE_COUNTRY.name(),
+                                props.getProperty(MOVIE_COUNTRY.fields()),
+                                String.format(GET_ID_BY_NAME_SQL, MOVIE.name(), movie.getKey()) + SQL_DELIMITER +
+                                        String.format(GET_ID_BY_NAME_SQL, COUNTRY.name(), country)
+                                )
+                        ))
         );
 
-        resultSQL.append(getCreateTableSQL(MOVIE_GENRE.name().toLowerCase()));
+        resultSQL.append(getCreateTableSQL(MOVIE_GENRE.nameLowerCase()));
         movie_genre.entrySet().stream().forEach(movie ->
-            {
                 movie.getValue().stream().forEach(genre ->
-                    resultSQL.append(String.format(INSERT_SQL,
-                            MOVIE_GENRE.name(),
-                            props.getProperty(MOVIE_GENRE.fields()),
-                            String.format(GET_ID_BY_NAME_SQL, MOVIE.name(), movie.getKey()) + SQL_DELIMITER +
-                                    String.format(GET_ID_BY_NAME_SQL, GENRE.name(), genre)
-                        )
-                    ));
-            }
+                        resultSQL.append(String.format(INSERT_SQL,
+                                MOVIE_GENRE.name(),
+                                props.getProperty(MOVIE_GENRE.fields()),
+                                String.format(GET_ID_BY_NAME_SQL, MOVIE.name(), movie.getKey()) + SQL_DELIMITER +
+                                        String.format(GET_ID_BY_NAME_SQL, GENRE.name(), genre)
+                                )
+                        ))
         );
 
         return resultSQL.toString();

@@ -9,6 +9,9 @@ public final class Constants {
     public static final String TXT = ".txt";
     public static final String SQL = ".sql";
     public static final String SQL_WRAPPER = "'";
+    public static final String SINGLE_QUOTE = "'";
+    public static final String DOUBLE_QUOTE = "''";
+    public static final String END_LINE = "\n";
     public static final String SQL_DELIMITER = ", ";
     public static final String ENTITY_DELIMITER = ", ";
     public static final String MOIVE_DELIMITER = "/";

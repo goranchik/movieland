@@ -1,11 +1,9 @@
 package com.goranchik.movieland.persistence.utils.generator.impl;
 
-
+import com.goranchik.movieland.persistence.utils.Table;
 import com.goranchik.movieland.persistence.utils.generator.SQLGenerator;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -26,10 +24,8 @@ public class ReviewSQLGeneratorImpl extends AbstractSQLGenerator implements SQLG
 
     @Override
     public String getPopulateTableSQL(String tableName, Properties props) {
-        String fields = props.getProperty(REVIEW.fields());
-        try (Stream<String> stream = Files.lines(Paths.get(getClass().getClassLoader()
-                .getResource(PATH_DATA + tableName + TXT)
-                .toURI()))) {
+        String fields = props.getProperty(Table.valueOf(tableName.toUpperCase()).fields());
+        try (Stream<String> stream = Files.lines(Paths.get(getTableResource(tableName).getURI()))) {
             StringBuilder temp = new StringBuilder();
             final int[] i = {0};
             stream.forEach(
@@ -58,11 +54,11 @@ public class ReviewSQLGeneratorImpl extends AbstractSQLGenerator implements SQLG
             if (temp.length()!=0) {
                 reviews.add(temp.toString());
             }
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        resultSQL.append(getCreateTableSQL(REVIEW.name().toLowerCase()));
+        resultSQL.append(getCreateTableSQL(tableName));
         reviews.stream().forEach(result ->
                 resultSQL.append(String.format(INSERT_SQL, tableName, fields, result)));
 

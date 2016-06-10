@@ -13,6 +13,9 @@ public enum Table {
     REVIEW;
 
     public String fields(){
-        return this.name().toLowerCase() + ".fields";
+        return name().toLowerCase() + ".fields";
+    }
+    public String nameLowerCase(){
+        return name().toLowerCase();
     }
 }

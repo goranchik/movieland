@@ -1,5 +1,6 @@
 package com.goranchik.movieland.persistence.utils.generator;
 
+import org.springframework.core.io.Resource;
 import java.util.Properties;
 
 /**
@@ -12,4 +13,6 @@ public interface SQLGenerator {
     String REVIEW_SQL_GENERATOR = "reviewSQLGenerator";
     String getPopulateTableSQL(String tableName, Properties props);
     String getCreateTableSQL(String tableName);
+    Resource getTableResource(String tableName);
+    Resource getDataResource(String tableName);
 }

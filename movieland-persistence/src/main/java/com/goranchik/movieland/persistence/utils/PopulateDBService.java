@@ -24,8 +24,6 @@ import static com.goranchik.movieland.persistence.utils.Table.*;
 @Service
 public class PopulateDBService {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -57,21 +55,9 @@ public class PopulateDBService {
     @PostConstruct
     public void initDBLoad() throws IOException {
         Properties props = getDBProperties();
-
-        String genreSQL = genreSQLGenereator.getPopulateTableSQL(GENRE.name().toLowerCase(), props);
-        log.info("genreSQL=>\n" + genreSQL);
-        runSQL(genreSQL);
-
-        String userSQL = userSQLGenereator.getPopulateTableSQL(USERS.name().toLowerCase(), props);
-        log.info("userSQL=>\n" + userSQL);
-        runSQL(userSQL);
-
-        String movieSQL = movieSQLGenereator.getPopulateTableSQL(MOVIE.name().toLowerCase(), props);
-        log.info("movieSQL=>\n" + movieSQL);
-        runSQL(movieSQL);
-
-        String reviewSQL = reviewSQLGenereator.getPopulateTableSQL(REVIEW.name().toLowerCase(), props);
-        log.info("reviewSQL=>\n" + reviewSQL);
-        runSQL(reviewSQL);
+        runSQL(genreSQLGenereator.getPopulateTableSQL(GENRE.name().toLowerCase(), props));
+        runSQL(userSQLGenereator.getPopulateTableSQL(USERS.name().toLowerCase(), props));
+        runSQL(movieSQLGenereator.getPopulateTableSQL(MOVIE.name().toLowerCase(), props));
+        runSQL(reviewSQLGenereator.getPopulateTableSQL(REVIEW.name().toLowerCase(), props));
     }
 }
