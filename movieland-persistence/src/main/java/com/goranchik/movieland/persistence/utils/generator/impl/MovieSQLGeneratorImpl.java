@@ -26,7 +26,7 @@ public class MovieSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
 
     @Override
     public String getPopulateTableSQL(String tableName) {
-        Properties props = propertyDBService.getDBProperties();
+        Properties dbProperties = propertyDBService.getDBProperties();
         try (Stream<String> stream = Files.lines(Paths.get(getDataResource(tableName).getURI()))) {
             StringBuilder temp = new StringBuilder();
             final int[] i = {0};
@@ -85,20 +85,20 @@ public class MovieSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
         resultSQL.append(getCreateTableSQL(tableName));
         movies.stream().forEach(result ->
                 resultSQL.append(String.format(INSERT_SQL, tableName,
-                        Table.valueOf(tableName.toUpperCase()).fields(props), result)));
+                        Table.valueOf(tableName.toUpperCase()).fields(dbProperties), result)));
 
         resultSQL.append(getCreateTableSQL(COUNTRY.nameLowerCase()));
         countries.stream().forEach(result ->
                 resultSQL.append(String.format(INSERT_SQL,
                         COUNTRY.name(),
-                        COUNTRY.fields(props), SQL_WRAPPER + result + SQL_WRAPPER)));
+                        COUNTRY.fields(dbProperties), SQL_WRAPPER + result + SQL_WRAPPER)));
 
         resultSQL.append(getCreateTableSQL(MOVIE_COUNTRY.nameLowerCase()));
         movie_country.entrySet().stream().forEach(movie ->
                 movie.getValue().stream().forEach(country ->
                         resultSQL.append(String.format(INSERT_SQL,
                                 MOVIE_COUNTRY.name(),
-                                MOVIE_COUNTRY.fields(props),
+                                MOVIE_COUNTRY.fields(dbProperties),
                                 String.format(GET_ID_BY_NAME_SQL, MOVIE.name(), movie.getKey()) + SQL_DELIMITER +
                                         String.format(GET_ID_BY_NAME_SQL, COUNTRY.name(), country)
                                 )
@@ -110,7 +110,7 @@ public class MovieSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
                 movie.getValue().stream().forEach(genre ->
                         resultSQL.append(String.format(INSERT_SQL,
                                 MOVIE_GENRE.name(),
-                                MOVIE_GENRE.fields(props),
+                                MOVIE_GENRE.fields(dbProperties),
                                 String.format(GET_ID_BY_NAME_SQL, MOVIE.name(), movie.getKey()) + SQL_DELIMITER +
                                         String.format(GET_ID_BY_NAME_SQL, GENRE.name(), genre)
                                 )

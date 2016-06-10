@@ -25,7 +25,7 @@ public class UserSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGen
 
     @Override
     public String getPopulateTableSQL(String tableName) {
-        Properties props = propertyDBService.getDBProperties();
+        Properties dbProperties = propertyDBService.getDBProperties();
         try (Stream<String> stream = Files.lines(Paths.get(getDataResource(tableName).getURI()))) {
             StringBuilder temp = new StringBuilder();
             stream.forEach(
@@ -50,7 +50,7 @@ public class UserSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGen
         resultSQL.append(getCreateTableSQL(tableName));
         users.stream().forEach(result ->
                 resultSQL.append(String.format(INSERT_SQL, tableName,
-                        Table.valueOf(tableName.toUpperCase()).fields(props), result)));
+                        Table.valueOf(tableName.toUpperCase()).fields(dbProperties), result)));
 
         return resultSQL.toString();
     }

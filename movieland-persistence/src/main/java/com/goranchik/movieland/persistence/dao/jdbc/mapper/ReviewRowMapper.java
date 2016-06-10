@@ -19,14 +19,14 @@ public class ReviewRowMapper implements RowMapper<Review> {
 
     private MovieDao movieDao;
     private UserDao userDao;
-    private Properties props;
+    private Properties dbProperties;
 
     @Override
     public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
         Review review = new Review();
-        review.setMovie(movieDao.findById(rs.getInt(REVIEW.fieldSet(props).get(0))));
-        review.setReviewer(userDao.findById(rs.getInt(REVIEW.fieldSet(props).get(1))));
-        review.setFeedback(rs.getString(REVIEW.fieldSet(props).get(2)));
+        review.setMovie(movieDao.findById(rs.getInt(REVIEW.fieldSet(dbProperties).get(0))));
+        review.setReviewer(userDao.findById(rs.getInt(REVIEW.fieldSet(dbProperties).get(1))));
+        review.setFeedback(rs.getString(REVIEW.fieldSet(dbProperties).get(2)));
         return review;
     }
 }

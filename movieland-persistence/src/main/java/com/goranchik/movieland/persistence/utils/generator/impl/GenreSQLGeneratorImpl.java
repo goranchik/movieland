@@ -25,7 +25,7 @@ public class GenreSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
 
     @Override
     public String getPopulateTableSQL(String tableName) {
-        Properties props = propertyDBService.getDBProperties();
+        Properties dbProperties = propertyDBService.getDBProperties();
         try (Stream<String> stream = Files.lines(Paths.get(getDataResource(tableName).getURI()))) {
             genres = stream.collect(Collectors.toList());
         } catch (IOException e) {
@@ -33,7 +33,7 @@ public class GenreSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
         }
         resultSQL.append(getCreateTableSQL(tableName));
         genres.stream().forEach(result ->
-                resultSQL.append(String.format(INSERT_SQL, tableName, GENRE.fields(props),
+                resultSQL.append(String.format(INSERT_SQL, tableName, GENRE.fields(dbProperties),
                         SQL_WRAPPER + result + SQL_WRAPPER)));
         return resultSQL.toString();
     }
