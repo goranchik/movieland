@@ -25,7 +25,7 @@ public class ReviewSQLGeneratorImpl extends AbstractSQLGenerator implements SQLG
     @Override
     public String getPopulateTableSQL(String tableName, Properties props) {
         String fields = props.getProperty(Table.valueOf(tableName.toUpperCase()).fields());
-        try (Stream<String> stream = Files.lines(Paths.get(getTableResource(tableName).getURI()))) {
+        try (Stream<String> stream = Files.lines(Paths.get(getDataResource(tableName).getURI()))) {
             StringBuilder temp = new StringBuilder();
             final int[] i = {0};
             stream.forEach(
