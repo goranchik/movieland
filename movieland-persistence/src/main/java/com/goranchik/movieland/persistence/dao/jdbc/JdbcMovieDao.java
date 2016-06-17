@@ -1,14 +1,11 @@
 package com.goranchik.movieland.persistence.dao.jdbc;
 
-import com.goranchik.movieland.persistence.dao.CountryDao;
-import com.goranchik.movieland.persistence.dao.GenreDao;
 import com.goranchik.movieland.persistence.dao.MovieDao;
-import com.goranchik.movieland.persistence.dao.jdbc.mapper.MovieRowMapper;
 import com.goranchik.movieland.persistence.entity.Movie;
-import com.goranchik.movieland.persistence.utils.PropertyDBService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +17,7 @@ import java.util.List;
 @Repository
 public class JdbcMovieDao implements MovieDao {
     private final Logger log = LoggerFactory.getLogger(getClass());
+    private BeanPropertyRowMapper<Movie> mapper = new BeanPropertyRowMapper<>(Movie.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -30,22 +28,12 @@ public class JdbcMovieDao implements MovieDao {
     @Autowired
     private String findAllMoviesSQL;
 
-    @Autowired
-    private GenreDao genreDao;
-
-    @Autowired
-    private CountryDao countryDao;
-
-    @Autowired
-    private PropertyDBService propertyDBService;
-
     @Override
     public Movie findById(int id) {
         log.info("Start query to find movie by id {} from DB", id);
         long startTime = System.currentTimeMillis();
         Movie movie = jdbcTemplate.queryForObject(findMovieByIdSQL,
-                new Object[]{id},
-                new MovieRowMapper(genreDao, countryDao, propertyDBService.getDBProperties()));
+                new Object[]{id}, mapper);
         log.info("Finish query to find movie by id {} from DB. It took {} ms",
                 id, System.currentTimeMillis() - startTime);
         return movie;
@@ -55,8 +43,7 @@ public class JdbcMovieDao implements MovieDao {
     public List<Movie> findAll() {
         log.info("Start query to find all movies from DB");
         long startTime = System.currentTimeMillis();
-        List<Movie> countries = jdbcTemplate.query(findAllMoviesSQL,
-                new MovieRowMapper(genreDao, countryDao, propertyDBService.getDBProperties()));
+        List<Movie> countries = jdbcTemplate.query(findAllMoviesSQL, mapper);
         log.info("Finish query to find all movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
         return countries;
     }

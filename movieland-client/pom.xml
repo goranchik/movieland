@@ -19,12 +19,7 @@
         <!--   *******************  Project  ************************* -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>movieland-persistence</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>movieland-tools</artifactId>
+            <artifactId>movieland-service</artifactId>
             <version>${project.version}</version>
         </dependency>
 

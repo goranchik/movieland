@@ -5,7 +5,7 @@ import com.goranchik.movieland.client.web.dto.MovieMultipleViewDto;
 import com.goranchik.movieland.client.web.dto.MovieSingleViewDto;
 import com.goranchik.movieland.client.web.service.MovieViewService;
 import com.goranchik.movieland.persistence.entity.Movie;
-import com.goranchik.movieland.persistence.service.MovieService;
+import com.goranchik.movieland.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

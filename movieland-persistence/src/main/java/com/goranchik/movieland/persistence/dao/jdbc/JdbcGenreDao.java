@@ -19,7 +19,9 @@ import java.util.Set;
  */
 @Repository
 public class JdbcGenreDao implements GenreDao {
+
     private final Logger log = LoggerFactory.getLogger(getClass());
+    private BeanPropertyRowMapper<Genre> mapper = new BeanPropertyRowMapper<>(Genre.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -37,7 +39,7 @@ public class JdbcGenreDao implements GenreDao {
     public Genre findById(int id) {
         log.info("Start query to find genre by id {} from DB", id);
         long startTime = System.currentTimeMillis();
-        Genre genre = jdbcTemplate.queryForObject(findGenreByIdSQL, new Object[]{id}, new BeanPropertyRowMapper<>(Genre.class));
+        Genre genre = jdbcTemplate.queryForObject(findGenreByIdSQL, new Object[]{id}, mapper);
         log.info("Finish query to find genre by id {} from DB. It took {} ms", id, System.currentTimeMillis() - startTime);
         return genre;
     }
@@ -46,8 +48,7 @@ public class JdbcGenreDao implements GenreDao {
     public List<Genre> findAll() {
         log.info("Start query to find genres from DB");
         long startTime = System.currentTimeMillis();
-        List<Genre> genres = jdbcTemplate.query(findAllGenresSQL,
-                new BeanPropertyRowMapper<>(Genre.class));
+        List<Genre> genres = jdbcTemplate.query(findAllGenresSQL, mapper);
         log.info("Finish query to find genres from DB. It took {} ms", System.currentTimeMillis() - startTime);
         return genres;
     }

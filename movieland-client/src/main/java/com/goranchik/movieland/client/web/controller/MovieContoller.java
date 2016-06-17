@@ -38,7 +38,7 @@ public class MovieContoller {
         return genreJson;
     }
 
-    @RequestMapping(value = "/all", produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String findAll(){
         log.info("Sending request to find all movies");
