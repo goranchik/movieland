@@ -1,10 +1,8 @@
 package com.goranchik.movieland.persistence.context;
 
+import com.goranchik.movieland.tools.context.ToolsContext;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -16,10 +14,10 @@ import javax.sql.DataSource;
  */
 @Configuration
 @ComponentScan({
-        "com.goranchik.movieland.persistence.service",
         "com.goranchik.movieland.persistence.dao",
         "com.goranchik.movieland.persistence.utils"
 })
+@Import(ToolsContext.class)
 @PropertySource("classpath:config/jdbc.properties")
 public class PersistenceContext {
 
@@ -37,9 +35,6 @@ public class PersistenceContext {
 
     @Value("${jdbc.data.path}")
     private String jdbcDataPath;
-
-    @Value("${jdbc.tables.path}")
-    private String jdbcTablesPath;
 
     @Value("${jdbc.sql.find.genre.by.id}")
     private String jdbcFindGenreByIdSQL;
@@ -95,11 +90,6 @@ public class PersistenceContext {
     @Bean
     public String getDataPath() {
         return jdbcDataPath;
-    }
-
-    @Bean
-    public String getTablesPath() {
-        return jdbcTablesPath;
     }
 
     @Bean

@@ -19,6 +19,7 @@ import java.util.Set;
 @Repository
 public class JdbcCountryDao implements CountryDao {
     private final Logger log = LoggerFactory.getLogger(getClass());
+    private BeanPropertyRowMapper<Country> mapper = new BeanPropertyRowMapper<>(Country.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -36,7 +37,7 @@ public class JdbcCountryDao implements CountryDao {
     public Country findById(int id) {
         log.info("Start query to find country by id {} from DB", id);
         long startTime = System.currentTimeMillis();
-        Country country = jdbcTemplate.queryForObject(findCountryByIdSQL, new BeanPropertyRowMapper<>(Country.class));
+        Country country = jdbcTemplate.queryForObject(findCountryByIdSQL, mapper);
         log.info("Finish query to find country by id {} from DB. It took {} ms", id, System.currentTimeMillis() - startTime);
         return country;
     }
@@ -45,8 +46,7 @@ public class JdbcCountryDao implements CountryDao {
     public List<Country> findAll() {
         log.info("Start query to find all countries from DB");
         long startTime = System.currentTimeMillis();
-        List<Country> countries = jdbcTemplate.query(findAllCountriesSQL,
-                new BeanPropertyRowMapper<>(Country.class));
+        List<Country> countries = jdbcTemplate.query(findAllCountriesSQL, mapper);
         log.info("Finish query to find all countries from DB. It took {} ms", System.currentTimeMillis() - startTime);
         return countries;
     }

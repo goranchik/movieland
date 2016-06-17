@@ -1,7 +1,7 @@
 package com.goranchik.movieland.client.web;
 
 import com.goranchik.movieland.client.context.ClientContext;
-import com.goranchik.movieland.persistence.context.PersistenceContext;
+import com.goranchik.movieland.service.context.ServiceContext;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -10,7 +10,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class ClientWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{PersistenceContext.class};
+        return new Class<?>[]{ServiceContext.class};
     }
 
     @Override

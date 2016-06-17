@@ -10,7 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>movieland-persistence</artifactId>
+    <artifactId>movieland-service</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
@@ -18,20 +18,8 @@
         <!--   *******************  Project  ************************* -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>movieland-tools</artifactId>
+            <artifactId>movieland-persistence</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <!--  **********************   Spring JDBC  ************************   -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-        </dependency>
-
-        <!-- ********************** PostgresSQL ****************************** -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
         </dependency>
 
         <!--   *******************  Test  ************************* -->

@@ -1,6 +1,6 @@
 package com.goranchik.movieland.persistence.utils;
 
-import com.goranchik.movieland.persistence.utils.generator.SQLGenerator;
+import com.goranchik.movieland.tools.utils.generator.SQLGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 
-import static com.goranchik.movieland.persistence.utils.Table.*;
+import static com.goranchik.movieland.tools.Table.*;
+import static com.goranchik.movieland.tools.Constants.*;
 
 /**
  * Created by Ihor on 6/8/2016.
@@ -21,19 +22,19 @@ public class PopulateDBService {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    @Qualifier(SQLGenerator.GENRE_SQL_GENERATOR)
+    @Qualifier(GENRE_SQL_GENERATOR)
     private SQLGenerator genreSQLGenereator;
 
     @Autowired
-    @Qualifier(SQLGenerator.USER_SQL_GENERATOR)
+    @Qualifier(USER_SQL_GENERATOR)
     private SQLGenerator userSQLGenereator;
 
     @Autowired
-    @Qualifier(SQLGenerator.MOVIE_SQL_GENERATOR)
+    @Qualifier(MOVIE_SQL_GENERATOR)
     private SQLGenerator movieSQLGenereator;
 
     @Autowired
-    @Qualifier(SQLGenerator.REVIEW_SQL_GENERATOR)
+    @Qualifier(REVIEW_SQL_GENERATOR)
     private SQLGenerator reviewSQLGenereator;
 
     private void runSQL(String sql) {

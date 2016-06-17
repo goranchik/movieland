@@ -17,6 +17,7 @@ import java.util.List;
 @Repository
 public class JdbcUserDao implements UserDao {
     private final Logger log = LoggerFactory.getLogger(getClass());
+    private BeanPropertyRowMapper<User> mapper = new BeanPropertyRowMapper<>(User.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -31,7 +32,7 @@ public class JdbcUserDao implements UserDao {
     public User findById(int id) {
         log.info("Start query to find user by id {} from DB", id);
         long startTime = System.currentTimeMillis();
-        User user = jdbcTemplate.queryForObject(findUserByIdSQL, new Object[]{id}, new BeanPropertyRowMapper<>(User.class));
+        User user = jdbcTemplate.queryForObject(findUserByIdSQL, new Object[]{id}, mapper);
         log.info("Finish query to find user by id {} from DB. It took {} ms", id, System.currentTimeMillis() - startTime);
         return user;
     }
@@ -40,7 +41,7 @@ public class JdbcUserDao implements UserDao {
     public List<User> findAll() {
         log.info("Start query to find all users from DB");
         long startTime = System.currentTimeMillis();
-        List<User> users = jdbcTemplate.query(findAllUsersSQL, new BeanPropertyRowMapper<>(User.class));
+        List<User> users = jdbcTemplate.query(findAllUsersSQL, mapper);
         log.info("Finish query to find all users from DB. It took {} ms", System.currentTimeMillis() - startTime);
         return users;
     }
