@@ -43,8 +43,14 @@ public class JdbcMovieDao implements MovieDao {
     public List<Movie> findAll() {
         log.info("Start query to find all movies from DB");
         long startTime = System.currentTimeMillis();
-        List<Movie> countries = jdbcTemplate.query(findAllMoviesSQL, mapper);
+        List<Movie> movies = jdbcTemplate.query(findAllMoviesSQL, mapper);
         log.info("Finish query to find all movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
-        return countries;
+        return movies;
+    }
+
+    @Override
+    public List<Movie> findBySearchRequest(String searchRequest) {
+        List<Movie> movies = jdbcTemplate.query(searchRequest, mapper);
+        return movies;
     }
 }

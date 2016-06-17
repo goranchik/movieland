@@ -5,8 +5,8 @@ import org.springframework.core.io.Resource;
 /**
  * Created by Ihor on 6/7/2016.
  */
-public interface SQLGenerator {
-    String getPopulateTableSQL(String tableName);
-    String getCreateTableSQL(String tableName);
+public interface SqlLaunchGeneratorService {
+    String getPopulateTableSql(String tableName);
+    String getCreateTableSql(String tableName);
     Resource getDataResource(String tableName);
 }

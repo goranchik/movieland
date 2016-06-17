@@ -1,6 +1,6 @@
 package com.goranchik.movieland.persistence.utils;
 
-import com.goranchik.movieland.tools.utils.generator.SQLGenerator;
+import com.goranchik.movieland.tools.utils.generator.SqlLaunchGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 
-import static com.goranchik.movieland.tools.Table.*;
+import static com.goranchik.movieland.tools.enums.Table.*;
 import static com.goranchik.movieland.tools.Constants.*;
 
 /**
@@ -22,30 +22,30 @@ public class PopulateDBService {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    @Qualifier(GENRE_SQL_GENERATOR)
-    private SQLGenerator genreSQLGenereator;
+    @Qualifier(GENRE_SQL_LAUNCH_GENERATOR)
+    private SqlLaunchGeneratorService genreSqlGenereator;
 
     @Autowired
-    @Qualifier(USER_SQL_GENERATOR)
-    private SQLGenerator userSQLGenereator;
+    @Qualifier(USER_SQL_LAUNCH_GENERATOR)
+    private SqlLaunchGeneratorService userSqlGenereator;
 
     @Autowired
-    @Qualifier(MOVIE_SQL_GENERATOR)
-    private SQLGenerator movieSQLGenereator;
+    @Qualifier(MOVIE_SQL_LAUNCH_GENERATOR)
+    private SqlLaunchGeneratorService movieSqlGenereator;
 
     @Autowired
-    @Qualifier(REVIEW_SQL_GENERATOR)
-    private SQLGenerator reviewSQLGenereator;
+    @Qualifier(REVIEW_SQL_LAUNCH_GENERATOR)
+    private SqlLaunchGeneratorService reviewSqlGenereator;
 
     private void runSQL(String sql) {
         jdbcTemplate.execute(sql);
     }
 
     @PostConstruct
-    public void initDBLoad() throws IOException {
-        runSQL(genreSQLGenereator.getPopulateTableSQL(GENRE.nameLowerCase()));
-        runSQL(userSQLGenereator.getPopulateTableSQL(USERS.nameLowerCase()));
-        runSQL(movieSQLGenereator.getPopulateTableSQL(MOVIE.nameLowerCase()));
-        runSQL(reviewSQLGenereator.getPopulateTableSQL(REVIEW.nameLowerCase()));
+    public void launch() throws IOException {
+        runSQL(genreSqlGenereator.getPopulateTableSql(GENRE.getName()));
+        runSQL(userSqlGenereator.getPopulateTableSql(USERS.getName()));
+        runSQL(movieSqlGenereator.getPopulateTableSql(MOVIE.getName()));
+        runSQL(reviewSqlGenereator.getPopulateTableSql(REVIEW.getName()));
     }
 }

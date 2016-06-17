@@ -10,4 +10,5 @@ import java.util.List;
 public interface MovieDao {
     Movie findById(int id);
     List<Movie> findAll();
+    List<Movie> findBySearchRequest(String searchRequest);
 }

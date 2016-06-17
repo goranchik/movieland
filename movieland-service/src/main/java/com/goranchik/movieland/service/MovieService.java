@@ -1,5 +1,6 @@
 package com.goranchik.movieland.service;
 
+import com.goranchik.movieland.tools.dto.MovieSearchRequestDto;
 import com.goranchik.movieland.persistence.entity.Movie;
 
 import java.util.List;
@@ -10,4 +11,6 @@ import java.util.List;
 public interface MovieService {
     Movie findById(int id);
     List<Movie> findAll();
+    List<Movie> findBySearchRequest(MovieSearchRequestDto movieRequest);
 }
+

@@ -1,7 +1,7 @@
 package com.goranchik.movieland.tools.utils.generator.impl;
 
-import com.goranchik.movieland.tools.Table;
-import com.goranchik.movieland.tools.utils.generator.SQLGenerator;
+import com.goranchik.movieland.tools.enums.Table;
+import com.goranchik.movieland.tools.utils.generator.SqlLaunchGeneratorService;
 import com.goranchik.movieland.tools.utils.PropTools;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +12,13 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static com.goranchik.movieland.tools.Constants.*;
-import static com.goranchik.movieland.tools.Table.*;
+import static com.goranchik.movieland.tools.enums.Table.*;
 
 /**
  * Created by Ihor on 6/7/2016.
  */
-@Service(MOVIE_SQL_GENERATOR)
-public class MovieSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGenerator {
+@Service(MOVIE_SQL_LAUNCH_GENERATOR)
+public class MovieSqlLaunchGeneratorService extends AbstractSqlLaunchGeneratorService implements SqlLaunchGeneratorService {
     private List<String> movies = new ArrayList<>();
     private Set<String> countries = new HashSet<>();
     private Map<String, List<String>> movie_country = new HashMap<>();
@@ -26,8 +26,7 @@ public class MovieSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
     private StringBuilder resultSQL = new StringBuilder();
 
     @Override
-    public String getPopulateTableSQL(String tableName) {
-        Properties dbProperties = PropTools.getDBProperties();
+    public String getPopulateTableSql(String tableName) {
         try (Stream<String> stream = Files.lines(Paths.get(getDataResource(tableName).getURI()))) {
             StringBuilder temp = new StringBuilder();
             final int[] i = {0};
@@ -83,42 +82,41 @@ public class MovieSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGe
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        resultSQL.append(getCreateTableSQL(tableName));
+        resultSQL.append(getCreateTableSql(tableName));
         movies.stream().forEach(result ->
                 resultSQL.append(String.format(INSERT_SQL, tableName,
-                        Table.valueOf(tableName.toUpperCase()).dataFields(dbProperties), result)));
+                        Table.valueOf(tableName.toUpperCase()).getDataFields(), result)));
 
-        resultSQL.append(getCreateTableSQL(COUNTRY.nameLowerCase()));
+        resultSQL.append(getCreateTableSql(COUNTRY.getName()));
         countries.stream().forEach(result ->
                 resultSQL.append(String.format(INSERT_SQL,
-                        COUNTRY.name(),
-                        COUNTRY.dataFields(dbProperties), SQL_WRAPPER + result + SQL_WRAPPER)));
+                        COUNTRY.getName(),
+                        COUNTRY.getDataFields(), SQL_WRAPPER + result + SQL_WRAPPER)));
 
-        resultSQL.append(getCreateTableSQL(MOVIE_COUNTRY.nameLowerCase()));
+        resultSQL.append(getCreateTableSql(MOVIE_COUNTRY.getName()));
         movie_country.entrySet().stream().forEach(movie ->
                 movie.getValue().stream().forEach(country ->
                         resultSQL.append(String.format(INSERT_SQL,
-                                MOVIE_COUNTRY.name(),
-                                MOVIE_COUNTRY.dataFields(dbProperties),
-                                String.format(GET_ID_BY_NAME_SQL, MOVIE.name(), movie.getKey()) + SQL_DELIMITER +
-                                        String.format(GET_ID_BY_NAME_SQL, COUNTRY.name(), country)
+                                MOVIE_COUNTRY.getName(),
+                                MOVIE_COUNTRY.getDataFields(),
+                                String.format(GET_ID_BY_NAME_SQL, MOVIE.getName(), movie.getKey()) + SQL_DELIMITER +
+                                        String.format(GET_ID_BY_NAME_SQL, COUNTRY.getName(), country)
                                 )
                         ))
         );
 
-        resultSQL.append(getCreateTableSQL(MOVIE_GENRE.nameLowerCase()));
+        resultSQL.append(getCreateTableSql(MOVIE_GENRE.getName()));
         movie_genre.entrySet().stream().forEach(movie ->
                 movie.getValue().stream().forEach(genre ->
                         resultSQL.append(String.format(INSERT_SQL,
-                                MOVIE_GENRE.name(),
-                                MOVIE_GENRE.dataFields(dbProperties),
-                                String.format(GET_ID_BY_NAME_SQL, MOVIE.name(), movie.getKey()) + SQL_DELIMITER +
-                                        String.format(GET_ID_BY_NAME_SQL, GENRE.name(), genre)
+                                MOVIE_GENRE.getName(),
+                                MOVIE_GENRE.getDataFields(),
+                                String.format(GET_ID_BY_NAME_SQL, MOVIE.getName(), movie.getKey()) + SQL_DELIMITER +
+                                        String.format(GET_ID_BY_NAME_SQL, GENRE.getName(), genre)
                                 )
                         ))
         );
 
         return resultSQL.toString();
     }
-
 }

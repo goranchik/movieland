@@ -2,6 +2,7 @@ package com.goranchik.movieland.client.web.service.impl;
 
 import com.goranchik.movieland.client.utils.converter.EntityConverter;
 import com.goranchik.movieland.client.web.dto.MovieMultipleViewDto;
+import com.goranchik.movieland.tools.dto.MovieSearchRequestDto;
 import com.goranchik.movieland.client.web.dto.MovieSingleViewDto;
 import com.goranchik.movieland.client.web.service.MovieViewService;
 import com.goranchik.movieland.persistence.entity.Movie;
@@ -38,6 +39,13 @@ public class MovieViewServiceImpl implements MovieViewService {
     @Override
     public List<MovieMultipleViewDto> findAll() {
         return movieService.findAll()
+                .stream().map(movie -> multipleConverter.convert(movie))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MovieMultipleViewDto> findBySearchRequest(MovieSearchRequestDto movieRequest) {
+        return movieService.findBySearchRequest(movieRequest)
                 .stream().map(movie -> multipleConverter.convert(movie))
                 .collect(Collectors.toList());
     }

@@ -1,8 +1,8 @@
 package com.goranchik.movieland.tools.utils.generator.impl;
 
 
-import com.goranchik.movieland.tools.Table;
-import com.goranchik.movieland.tools.utils.generator.SQLGenerator;
+import com.goranchik.movieland.tools.enums.Table;
+import com.goranchik.movieland.tools.utils.generator.SqlLaunchGeneratorService;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,14 +16,14 @@ import static com.goranchik.movieland.tools.Constants.*;
 /**
  * Created by Ihor on 6/7/2016.
  */
-@Service(USER_SQL_GENERATOR)
-public class UserSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGenerator {
+@Service(USER_SQL_LAUNCH_GENERATOR)
+public class UserSqlLaunchGeneratorService extends AbstractSqlLaunchGeneratorService implements SqlLaunchGeneratorService {
 
     private List<String> users = new ArrayList<>();
     private StringBuilder resultSQL = new StringBuilder();
 
     @Override
-    public String getPopulateTableSQL(String tableName) {
+    public String getPopulateTableSql(String tableName) {
         try (Stream<String> stream = Files.lines(Paths.get(getDataResource(tableName).getURI()))) {
             StringBuilder temp = new StringBuilder();
             stream.forEach(
@@ -45,10 +45,10 @@ public class UserSQLGeneratorImpl extends AbstractSQLGenerator implements SQLGen
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        resultSQL.append(getCreateTableSQL(tableName));
+        resultSQL.append(getCreateTableSql(tableName));
         users.stream().forEach(result ->
                 resultSQL.append(String.format(INSERT_SQL, tableName,
-                        Table.valueOf(tableName.toUpperCase()).dataFields(dbProperties), result)));
+                        Table.valueOf(tableName.toUpperCase()).getDataFields(), result)));
 
         return resultSQL.toString();
     }

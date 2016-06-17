@@ -72,6 +72,18 @@ public class PersistenceContext {
     @Value("${jdbc.sql.find.reviews.by.movie.id}")
     private String jdbcFindReviewsByMovieIdSQL;
 
+    @Value("${jdbc.sql.find.movies.by.genre.predicate}")
+    private String jdbcFindMoviesByGenrePredicate;
+
+    @Value("${jdbc.sql.find.movies.by.title.predicate}")
+    private String jdbcFindMoviesByTitlePredicate;
+
+    @Value("${jdbc.sql.find.movies.by.year.predicate}")
+    private String jdbcFindMoviesByYearPredicate;
+
+    @Value("${jdbc.sql.find.movies.by.country.predicate}")
+    private String jdbcFindMoviesByCountryPredicate;
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -150,6 +162,26 @@ public class PersistenceContext {
     @Bean
     public String findReviewsByMovieIdSQL() {
         return jdbcFindReviewsByMovieIdSQL;
+    }
+
+    @Bean
+    public String findMoviesByGenrePredicate() {
+        return jdbcFindMoviesByGenrePredicate;
+    }
+
+    @Bean
+    public String findMoviesByTitlePredicate() {
+        return jdbcFindMoviesByTitlePredicate;
+    }
+
+    @Bean
+    public String findMoviesByYearPredicate() {
+        return jdbcFindMoviesByYearPredicate;
+    }
+
+    @Bean
+    public String findMoviesByCountryPredicate() {
+        return jdbcFindMoviesByCountryPredicate;
     }
 
     @Bean
