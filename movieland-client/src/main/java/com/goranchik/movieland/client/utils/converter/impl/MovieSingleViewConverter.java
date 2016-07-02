@@ -1,7 +1,7 @@
 package com.goranchik.movieland.client.utils.converter.impl;
 
 import com.goranchik.movieland.client.utils.converter.EntityConverter;
-import com.goranchik.movieland.client.web.dto.MovieSingleViewDto;
+import com.goranchik.movieland.tools.dto.view.MovieSingleViewDto;
 import com.goranchik.movieland.persistence.entity.Country;
 import com.goranchik.movieland.persistence.entity.Genre;
 import com.goranchik.movieland.persistence.entity.Movie;
@@ -18,8 +18,8 @@ import static com.goranchik.movieland.tools.Constants.REVIEW_LIMIT;
 /**
  * Created by Ihor on 6/9/2016.
  */
-@Service(EntityConverter.MOVIE_SINGLE_VIEW_CONVERTER)
-public class MovieSingleViewConverter<T, M> implements EntityConverter<Movie, MovieSingleViewDto> {
+@Service
+public class MovieSingleViewConverter implements EntityConverter<Movie, MovieSingleViewDto> {
 
     @Autowired
     private ReviewService reviewService;

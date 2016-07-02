@@ -13,12 +13,11 @@ import javax.sql.DataSource;
  * Created by Ihor on 6/8/2016.
  */
 @Configuration
-@ComponentScan({
-        "com.goranchik.movieland.persistence.dao",
-        "com.goranchik.movieland.persistence.utils"
-})
+@ComponentScan({"com.goranchik.movieland.persistence.dao",
+                "com.goranchik.movieland.persistence.utils"})
 @Import(ToolsContext.class)
-@PropertySource("classpath:config/jdbc.properties")
+@PropertySource({"classpath:config/jdbc.properties",
+                 "classpath:config/cache.properties"})
 public class PersistenceContext {
 
     @Value("${jdbc.driver.classname}")
@@ -51,8 +50,14 @@ public class PersistenceContext {
     @Value("${jdbc.sql.find.movie.by.id}")
     private String jdbcFindMovieByIdSQL;
 
+    @Value("${jdbc.sql.find.movie.by.id.batch}")
+    private String jdbcFindMovieByIdSQLBatch;
+
     @Value("${jdbc.sql.find.all.movies}")
     private String jdbcFindAllMoviesSQL;
+
+    @Value("${jdbc.sql.find.all.movies.batch}")
+    private String jdbcFindAllMoviesSQLBatch;
 
     @Value("${jdbc.sql.find.genres.by.movie.id}")
     private String jdbcFindGenresByMovieIdSQL;
@@ -83,6 +88,12 @@ public class PersistenceContext {
 
     @Value("${jdbc.sql.find.movies.by.country.predicate}")
     private String jdbcFindMoviesByCountryPredicate;
+
+    @Value("${cache.default.init.method}")
+    private String cacheDefaultInitMethod;
+
+    @Value("${cache.default.key}")
+    private String cacheDefaultKey;
 
     @Bean
     public DataSource dataSource() {
@@ -130,8 +141,18 @@ public class PersistenceContext {
     }
 
     @Bean
+    public String findMovieByIdSQLBatch() {
+        return jdbcFindMovieByIdSQLBatch;
+    }
+
+    @Bean
     public String findAllMoviesSQL() {
         return jdbcFindAllMoviesSQL;
+    }
+
+    @Bean
+    public String findAllMoviesSQLBatch() {
+        return jdbcFindAllMoviesSQLBatch;
     }
 
     @Bean
@@ -182,6 +203,16 @@ public class PersistenceContext {
     @Bean
     public String findMoviesByCountryPredicate() {
         return jdbcFindMoviesByCountryPredicate;
+    }
+
+    @Bean
+    public String getCacheDefaultInitMethod() {
+        return cacheDefaultInitMethod;
+    }
+
+    @Bean
+    public String getCacheDefaultKey() {
+        return cacheDefaultKey;
     }
 
     @Bean

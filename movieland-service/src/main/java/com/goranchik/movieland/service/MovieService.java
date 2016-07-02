@@ -1,6 +1,6 @@
 package com.goranchik.movieland.service;
 
-import com.goranchik.movieland.tools.dto.MovieSearchRequestDto;
+import com.goranchik.movieland.tools.dto.MovieRestDto;
 import com.goranchik.movieland.persistence.entity.Movie;
 
 import java.util.List;
@@ -10,7 +10,9 @@ import java.util.List;
  */
 public interface MovieService {
     Movie findById(int id);
-    List<Movie> findAll();
-    List<Movie> findBySearchRequest(MovieSearchRequestDto movieRequest);
+    Movie findByIdBatch(int id);
+    <T extends MovieRestDto> List<Movie> findAll(T sortDto);
+    <T extends MovieRestDto> List<Movie> findAllBatch(T sortDto);
+    <M extends MovieRestDto> List<Movie> findBySearchRequest(M movieRequest);
 }
 

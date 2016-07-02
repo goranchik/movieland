@@ -3,9 +3,11 @@ package com.goranchik.movieland.service.impl;
 import com.goranchik.movieland.persistence.dao.CountryDao;
 import com.goranchik.movieland.persistence.dao.GenreDao;
 import com.goranchik.movieland.persistence.dao.MovieDao;
-import com.goranchik.movieland.tools.dto.MovieSearchRequestDto;
+import com.goranchik.movieland.tools.dto.MovieRestDto;
+import com.goranchik.movieland.tools.dto.MovieSearchDto;
 import com.goranchik.movieland.persistence.entity.Movie;
 import com.goranchik.movieland.service.MovieService;
+import com.goranchik.movieland.tools.dto.MovieSortDto;
 import com.goranchik.movieland.tools.utils.generator.SqlGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class MovieServiceImpl implements MovieService {
     private CountryDao countryDao;
 
     @Autowired
-    private SqlGeneratorService<MovieSearchRequestDto> searchGenerator;
+    private SqlGeneratorService sqlGenerator;
 
     @Override
     public Movie findById(int id) {
@@ -38,22 +40,49 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> findAll() {
-        List<Movie> movies = movieDao.findAll();
+    public Movie findByIdBatch(int id) {
+        Movie movie = movieDao.findByIdBatch(id);
+        return populateBatch(movie);
+    }
+
+    @Override
+    public <T extends MovieRestDto> List<Movie> findAll(T sortDto) {
+        String sql = sqlGenerator.getSortSql((MovieSortDto) sortDto);
+        List<Movie> movies = movieDao.findBySql(sql);
         return movies.stream().map(this::populate).collect(Collectors.toList());
     }
 
     @Override
-    public List<Movie> findBySearchRequest(MovieSearchRequestDto movieRequest) {
-        String searchRequest = searchGenerator.getSearchSql(movieRequest);
-        List<Movie> movies = movieDao.findBySearchRequest(searchRequest);
+    public <T extends MovieRestDto> List<Movie> findAllBatch(T sortDto) {
+        String sql = sqlGenerator.getSortSqlBatch((MovieSortDto) sortDto);
+        List<Movie> movies = movieDao.findBySqlBatch(sql);
+        return movies.stream().map(this::populateBatch).collect(Collectors.toList());
+    }
+
+
+    @Override
+    public <M extends MovieRestDto> List<Movie> findBySearchRequest(M searchRequest) {
+        String sql = sqlGenerator.getSearchSql((MovieSearchDto) searchRequest);
+        List<Movie> movies = movieDao.findBySql(sql);
         return movies.stream().map(this::populate).collect(Collectors.toList());
     }
 
     private Movie populate(Movie movie){
         int id = movie.getId();
-        movie.setGenres(genreDao.findByMovieId(id));
-        movie.setCountries(countryDao.findByMovieId(id));
+        movie.setGenres(genreDao.findByMovieId(id).stream()
+                .map(g -> genreDao.findById(g.getId())).collect(Collectors.toSet()));
+        movie.setCountries(countryDao.findByMovieId(id).stream()
+                .map(c -> countryDao.findById(c.getId())).collect(Collectors.toSet())
+        );
+        return movie;
+    }
+
+    private Movie populateBatch(Movie movie){
+        movie.setGenres(movie.getGenres().stream()
+                .map(g -> genreDao.findById(g.getId())).collect(Collectors.toSet()));
+        movie.setCountries(movie.getCountries().stream()
+                .map(c -> countryDao.findById(c.getId())).collect(Collectors.toSet())
+        );
         return movie;
     }
 }

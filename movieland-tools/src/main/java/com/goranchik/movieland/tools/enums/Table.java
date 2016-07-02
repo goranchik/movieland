@@ -29,6 +29,7 @@ public enum Table {
     private String dataFields;
     private String tableFields;
     private List<String> fieldSet;
+    private String cacheEvictCron;
     private Properties dbProps = PropTools.getDBProperties();
 
     Table(String name){
@@ -36,5 +37,8 @@ public enum Table {
         dataFields = dbProps.getProperty(name + PROP_DATA_FIELDS);
         tableFields = dbProps.getProperty(name + PROP_TABLE_FIELDS);
         fieldSet = Arrays.asList(dbProps.getProperty(name + PROP_DATA_FIELDS).split(ENTITY_DELIMITER));
+        cacheEvictCron = dbProps.getProperty(name + CACHE_EVICT_CRON);
     }
+
+
 }

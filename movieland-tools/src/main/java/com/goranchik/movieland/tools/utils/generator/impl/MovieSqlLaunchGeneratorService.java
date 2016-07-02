@@ -2,7 +2,6 @@ package com.goranchik.movieland.tools.utils.generator.impl;
 
 import com.goranchik.movieland.tools.enums.Table;
 import com.goranchik.movieland.tools.utils.generator.SqlLaunchGeneratorService;
-import com.goranchik.movieland.tools.utils.PropTools;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -60,11 +59,11 @@ public class MovieSqlLaunchGeneratorService extends AbstractSqlLaunchGeneratorSe
                                             .append(SQL_WRAPPER).append(SQL_DELIMITER);
                                     break;
                                 case 6:
-                                    temp.append(result.substring(result.indexOf(DECIMAL_DELIMITER) + 1))
+                                    temp.append(result.substring(result.indexOf(RATING_PRICE_DELIMITER) + 1))
                                             .append(SQL_DELIMITER);
                                     break;
                                 case 7:
-                                    temp.append(result.substring(result.indexOf(DECIMAL_DELIMITER) + 1));
+                                    temp.append(result.substring(result.indexOf(RATING_PRICE_DELIMITER) + 1));
                                     break;
                                 default:
                                     temp.append(SQL_WRAPPER).append(result).append(SQL_WRAPPER);

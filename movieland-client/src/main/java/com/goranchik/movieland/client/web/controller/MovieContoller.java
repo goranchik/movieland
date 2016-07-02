@@ -1,16 +1,15 @@
 package com.goranchik.movieland.client.web.controller;
 
-import com.goranchik.movieland.client.utils.converter.JsonJacksonConverter;
-import com.goranchik.movieland.client.web.dto.MovieMultipleViewDto;
-import com.goranchik.movieland.tools.dto.MovieSearchRequestDto;
-import com.goranchik.movieland.client.web.dto.MovieSingleViewDto;
-import com.goranchik.movieland.client.web.service.MovieViewService;
+import com.goranchik.movieland.client.web.service.RequestService;
+import com.goranchik.movieland.service.MovieService;
+import com.goranchik.movieland.tools.annotation.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import static com.goranchik.movieland.tools.enums.RequestType.*;
+
 
 /**
  * Created by Ihor on 6/8/2016.
@@ -21,37 +20,40 @@ public class MovieContoller {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    MovieViewService movieViewService;
+    private MovieService movieService;
 
     @Autowired
-    JsonJacksonConverter jsonConverter;
+    private RequestService requestService;
 
     @RequestMapping("/movie/{movieId}")
-    public String findById(@PathVariable int movieId){
-        log.info("Sending request to find movie by id = {}", movieId);
-        long startTime = System.currentTimeMillis();
-        MovieSingleViewDto movie = movieViewService.findById(movieId);
-        String genreJson = jsonConverter.toJson(movie);
-        log.info("Movie {} is received. It took {} ms", genreJson, System.currentTimeMillis() - startTime);
-        return genreJson;
+    @Request(type = GET_MOVIE_BY_ID_REQUEST)
+    public String findById(@PathVariable int movieId) {
+        return requestService.handleOneByParams(
+                movieService::findByIdBatch,
+                GET_MOVIE_BY_ID_REQUEST.getViewDto(),
+                Integer.class,
+                new Object[]{movieId});
     }
 
     @RequestMapping("/movies")
-    public String findAll(){
-        log.info("Sending request to find all movies");
-        long startTime = System.currentTimeMillis();
-        List<MovieMultipleViewDto> movies = movieViewService.findAll();
-        String moviesJson = jsonConverter.toJson(movies);
-        log.info("All movies {} are received. It took {} ms", moviesJson, System.currentTimeMillis() - startTime);
-        return moviesJson;
+    @Request(type = GET_ALL_MOVIE_REQUEST)
+    public String findAll(@RequestParam(required = false) String rating,
+                          @RequestParam(required = false) String price) {
+        return requestService.handleListByParams(
+                movieService::findAllBatch,
+                GET_ALL_MOVIE_REQUEST.getViewDto(),
+                GET_ALL_MOVIE_REQUEST.getRequestDto(),
+                new Object[]{rating == null ? "" : rating, price == null ? "" : price});
     }
 
     @RequestMapping(value = "/movie/search", method = RequestMethod.POST)
-    public String findBySearchRequest(@RequestBody String request){
-        MovieSearchRequestDto movieRequest =
-                jsonConverter.jsonToObj(request, MovieSearchRequestDto.class);
-        List<MovieMultipleViewDto> movies = movieViewService.findBySearchRequest(movieRequest);
-        String moviesJson = jsonConverter.toJson(movies);
-        return moviesJson;
+    @Request(type = GET_MOVIE_BY_SEARCH_REQUEST)
+    public String findBySearchRequest(@RequestBody String request) {
+        return requestService.handleListByJson(
+                movieService::findBySearchRequest,
+                GET_MOVIE_BY_SEARCH_REQUEST.getViewDto(),
+                GET_MOVIE_BY_SEARCH_REQUEST.getRequestDto(),
+                request
+                );
     }
 }

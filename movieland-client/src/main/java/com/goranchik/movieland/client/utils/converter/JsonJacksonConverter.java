@@ -27,8 +27,7 @@ public class JsonJacksonConverter {
         try {
             return objectMapper.readValue(json, clazz);
         } catch (UnrecognizedPropertyException upe) {
-           throw new RuntimeException("Incorrect format for json. Fields name should be one of these  "
-                   + Arrays.asList(clazz.getFields()).stream().map(e -> e.getName()).collect(Collectors.toList()).toString());
+           throw new RuntimeException("Incorrect format for json. Fields name should be one of these");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

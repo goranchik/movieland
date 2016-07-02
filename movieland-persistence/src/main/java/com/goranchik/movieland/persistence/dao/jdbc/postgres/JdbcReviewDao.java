@@ -1,4 +1,4 @@
-package com.goranchik.movieland.persistence.dao.jdbc;
+package com.goranchik.movieland.persistence.dao.jdbc.postgres;
 
 import com.goranchik.movieland.persistence.dao.ReviewDao;
 import com.goranchik.movieland.persistence.dao.jdbc.mapper.ReviewRowMapper;

@@ -1,7 +1,10 @@
-package com.goranchik.movieland.persistence.dao.jdbc;
+package com.goranchik.movieland.persistence.dao.jdbc.postgres;
 
 import com.goranchik.movieland.persistence.dao.CountryDao;
 import com.goranchik.movieland.persistence.entity.Country;
+import com.goranchik.movieland.tools.annotation.CacheInit;
+import com.goranchik.movieland.tools.annotation.Cacheable;
+import com.goranchik.movieland.tools.enums.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,8 @@ import org.springframework.stereotype.Repository;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static com.goranchik.movieland.tools.enums.Table.COUNTRY;
 
 /**
  * Created by Ihor on 6/8/2016.
@@ -34,6 +39,7 @@ public class JdbcCountryDao implements CountryDao {
     private String findCountriesByMovieIdSQL;
 
     @Override
+    @Cacheable(table = COUNTRY)
     public Country findById(int id) {
         log.info("Start query to find country by id {} from DB", id);
         long startTime = System.currentTimeMillis();
@@ -43,6 +49,7 @@ public class JdbcCountryDao implements CountryDao {
     }
 
     @Override
+    @CacheInit(table = COUNTRY)
     public List<Country> findAll() {
         log.info("Start query to find all countries from DB");
         long startTime = System.currentTimeMillis();
