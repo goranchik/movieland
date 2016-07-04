@@ -16,7 +16,6 @@ import java.util.List;
  */
 @Repository
 public class JdbcReviewDao implements ReviewDao {
-    private final Logger log = LoggerFactory.getLogger(getClass());
     private ReviewRowMapper mapper = new ReviewRowMapper();
 
     @Autowired
@@ -28,22 +27,33 @@ public class JdbcReviewDao implements ReviewDao {
     @Autowired
     private String findReviewsByMovieIdSQL;
 
+    @Autowired
+    private String insertReviewSQL;
+
+    @Autowired
+    private String deleteReviewSQL;
+
+
     @Override
     public List<Review> findAll() {
-        log.info("Start query to find all reviews from DB");
-        long startTime = System.currentTimeMillis();
-        List<Review> reviews = jdbcTemplate.query(findAllReviewsSQL, mapper);
-        log.info("Finish query to find all reviews from DB. It took {} ms", System.currentTimeMillis() - startTime);
-        return reviews;
+        return jdbcTemplate.query(findAllReviewsSQL, mapper);
     }
 
     @Override
     public List<Review> findByMovieId(int id) {
-        log.info("Start query to find reviews by movie id {} from DB", id);
-        long startTime = System.currentTimeMillis();
-        List<Review> reviews = jdbcTemplate.query(findReviewsByMovieIdSQL, new Object[]{id}, mapper);
-        log.info("Finish query to find reviews by movie id {} from DB. It took {} ms", id, System.currentTimeMillis() - startTime);
-        return reviews;
+        return jdbcTemplate.query(findReviewsByMovieIdSQL, new Object[]{id}, mapper);
+    }
+
+    @Override
+    public Review add(Review review) {
+        jdbcTemplate.update(insertReviewSQL, review.getMovie().getId(), review.getReviewer().getId(), review.getFeedback());
+        return review;
+    }
+
+    @Override
+    public Review remove(Review review) {
+        jdbcTemplate.update(deleteReviewSQL, review.getMovie().getId(), review.getReviewer().getId());
+        return review;
     }
 
 }

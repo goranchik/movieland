@@ -8,7 +8,6 @@ import lombok.Data;
  */
 @Data
 public class ReviewDto extends RequestDto {
-    private int authorId;
     private int movieId;
     private String review;
 }

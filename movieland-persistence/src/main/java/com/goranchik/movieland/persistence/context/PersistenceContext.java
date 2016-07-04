@@ -79,6 +79,12 @@ public class PersistenceContext {
     @Value("${jdbc.sql.find.reviews.by.movie.id}")
     private String jdbcFindReviewsByMovieIdSQL;
 
+    @Value("${jdbc.sql.insert.review}")
+    private String jdbcInsertReviewSQL;
+
+    @Value("${jdbc.sql.delete.review}")
+    private String jdbcDeleteReviewSQL;
+
     @Value("${jdbc.sql.find.movies.by.genre.predicate}")
     private String jdbcFindMoviesByGenrePredicate;
 
@@ -185,6 +191,16 @@ public class PersistenceContext {
     @Bean
     public String findReviewsByMovieIdSQL() {
         return jdbcFindReviewsByMovieIdSQL;
+    }
+
+    @Bean
+    public String insertReviewSQL() {
+        return jdbcInsertReviewSQL;
+    }
+
+    @Bean
+    public String deleteReviewSQL() {
+        return jdbcDeleteReviewSQL;
     }
 
     @Bean

@@ -1,7 +1,7 @@
 package com.goranchik.movieland.web.service.impl;
 
 
-import com.goranchik.movieland.client.converter.impl.ViewConverter;
+import com.goranchik.movieland.client.converter.impl.Converter;
 import com.goranchik.movieland.client.security.SecurityPrincipalHolder;
 import com.goranchik.movieland.persistence.entity.Principal;
 import com.goranchik.movieland.tools.utils.JsonJacksonConverter;
@@ -30,7 +30,7 @@ public class RequestServiceImpl implements RequestService {
     private JsonJacksonConverter jsonConverter;
 
     @Autowired
-    private ViewConverter viewConverter;
+    private Converter converter;
 
     @Override
     public <D, V, E> String handleOneByParams(Function<D, E> function,
@@ -39,7 +39,7 @@ public class RequestServiceImpl implements RequestService {
                                               Object[] params) {
         D dto = getDtoParams(dtoClazz, params);
         return jsonConverter.toJson(
-                viewConverter.convert(
+                converter.convert(
                         function.apply(dto), viewDtoClazz));
     }
 
@@ -51,7 +51,7 @@ public class RequestServiceImpl implements RequestService {
         D dto = getDtoParams(dtoClazz, params);
         return jsonConverter.toJson(
                 function.apply(dto).stream().map(movie ->
-                        viewConverter.convert(movie, viewDtoClazz)).collect(Collectors.toList())
+                        converter.convert(movie, viewDtoClazz)).collect(Collectors.toList())
         );
     }
 
@@ -63,7 +63,7 @@ public class RequestServiceImpl implements RequestService {
         return jsonConverter.toJson(
                 function.apply(jsonConverter.jsonToObj(json, dtoClazz))
                         .stream().map((movie) ->
-                        viewConverter.convert(movie, viewDtoClazz)).collect(Collectors.toList())
+                        converter.convert(movie, viewDtoClazz)).collect(Collectors.toList())
         );
     }
 
@@ -73,7 +73,7 @@ public class RequestServiceImpl implements RequestService {
                                             Class<D> dtoClazz,
                                             String json) {
         return jsonConverter.toJson(
-                viewConverter.convert(
+                converter.convert(
                         function.apply(jsonConverter.jsonToObj(json, dtoClazz)),
                         viewDtoClazz));
     }

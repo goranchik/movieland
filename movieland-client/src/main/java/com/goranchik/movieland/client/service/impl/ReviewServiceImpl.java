@@ -1,5 +1,6 @@
 package com.goranchik.movieland.client.service.impl;
 
+import com.goranchik.movieland.client.converter.impl.Converter;
 import com.goranchik.movieland.client.service.ReviewService;
 import com.goranchik.movieland.persistence.dao.MovieDao;
 import com.goranchik.movieland.persistence.dao.ReviewDao;
@@ -8,6 +9,7 @@ import com.goranchik.movieland.persistence.entity.Movie;
 import com.goranchik.movieland.persistence.entity.Review;
 import com.goranchik.movieland.persistence.entity.User;
 import com.goranchik.movieland.tools.dto.RequestDto;
+import com.goranchik.movieland.tools.utils.generator.SqlGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private Converter converter;
+
     @Override
     public List<Review> findAll() {
         List<Review> reviews = reviewDao.findAll();
@@ -44,12 +49,15 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public <T extends RequestDto> Review add(T addReviewDto) {
-        return null;
+        Review review = converter.convert(addReviewDto, Review.class);
+        return reviewDao.add(review);
     }
 
     @Override
     public <T extends RequestDto> Review remove(T removeReviewDto) {
-        return null;
+        Review review = converter.convert(removeReviewDto, Review.class);
+        return reviewDao.remove(review);
+
     }
 
     private Review populate(Review review){
