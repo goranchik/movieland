@@ -1,6 +1,7 @@
 package com.goranchik.movieland.persistence.dao;
 
 import com.goranchik.movieland.persistence.entity.User;
+
 import java.util.List;
 
 /**
@@ -9,4 +10,5 @@ import java.util.List;
 public interface UserDao {
     User findById(int id);
     List<User> findAll();
+    User findByEmailAndPassword(String email, String password);
 }

@@ -9,5 +9,7 @@ import java.util.List;
  */
 public interface MovieDao {
     Movie findById(int id);
-    List<Movie> findAll();
+    Movie findByIdBatch(int id);
+    List<Movie> findBySql(String sql);
+    List<Movie> findBySqlBatch(String sql);
 }

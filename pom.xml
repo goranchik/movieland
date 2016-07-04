@@ -10,14 +10,15 @@
     <name>movieland</name>
 
     <modules>
-        <module>movieland-client</module>
+        <module>movieland-web</module>
         <module>movieland-tools</module>
         <module>movieland-persistence</module>
+        <module>movieland-client</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>3.8.1</junit.version>
+        <junit.version>4.11</junit.version>
         <java.version>1.8</java.version>
         <lombok.version>1.16.6</lombok.version>
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
@@ -31,6 +32,8 @@
         <jackson.version>2.4.2</jackson.version>
         <logback.version>1.1.2</logback.version>
         <slf4.version>1.7.7</slf4.version>
+        <mokito.version>1.10.19</mokito.version>
+        <aspectj.version>1.8.6</aspectj.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -105,12 +108,23 @@
                 <version>${slf4.version}</version>
             </dependency>
 
-            <!--   *******************  Junit  ************************* -->
+            <!--   *******************  Test  ************************* -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
-                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mokito.version}</version>
             </dependency>
 
             <!--  ********** LOMBOK ***************** -->
@@ -118,6 +132,25 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+            </dependency>
+
+
+            <!-- Spring AOP + AspectJ dependencies -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjtools</artifactId>
+                <version>${aspectj.version}</version>
             </dependency>
 
         </dependencies>

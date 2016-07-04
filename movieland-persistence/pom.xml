@@ -28,10 +28,29 @@
             <artifactId>spring-jdbc</artifactId>
         </dependency>
 
-        <!-- ********************** PostgresSQl ****************************** -->
+        <!-- ********************** PostgresSQL ****************************** -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+        </dependency>
+
+        <!--   *******************  Test  ************************* -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

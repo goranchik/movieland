@@ -1,6 +1,7 @@
 package com.goranchik.movieland.persistence.dao;
 
 import com.goranchik.movieland.persistence.entity.Review;
+
 import java.util.List;
 
 /**
@@ -9,4 +10,6 @@ import java.util.List;
 public interface ReviewDao {
     List<Review> findAll();
     List<Review> findByMovieId(int id);
+    Review add(Review review);
+    Review remove(Review review);
 }

@@ -1,10 +1,8 @@
 package com.goranchik.movieland.persistence.context;
 
+import com.goranchik.movieland.tools.context.ToolsContext;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -15,12 +13,10 @@ import javax.sql.DataSource;
  * Created by Ihor on 6/8/2016.
  */
 @Configuration
-@ComponentScan({
-        "com.goranchik.movieland.persistence.service",
-        "com.goranchik.movieland.persistence.dao",
-        "com.goranchik.movieland.persistence.utils"
-})
-@PropertySource("classpath:config/jdbc.properties")
+@ComponentScan({"com.goranchik.movieland.persistence.dao",
+                "com.goranchik.movieland.persistence.utils"})
+@Import(ToolsContext.class)
+@PropertySource("classpath:jdbc.properties")
 public class PersistenceContext {
 
     @Value("${jdbc.driver.classname}")
@@ -38,9 +34,6 @@ public class PersistenceContext {
     @Value("${jdbc.data.path}")
     private String jdbcDataPath;
 
-    @Value("${jdbc.tables.path}")
-    private String jdbcTablesPath;
-
     @Value("${jdbc.sql.find.genre.by.id}")
     private String jdbcFindGenreByIdSQL;
 
@@ -56,8 +49,14 @@ public class PersistenceContext {
     @Value("${jdbc.sql.find.movie.by.id}")
     private String jdbcFindMovieByIdSQL;
 
+    @Value("${jdbc.sql.find.movie.by.id.batch}")
+    private String jdbcFindMovieByIdSQLBatch;
+
     @Value("${jdbc.sql.find.all.movies}")
     private String jdbcFindAllMoviesSQL;
+
+    @Value("${jdbc.sql.find.all.movies.batch}")
+    private String jdbcFindAllMoviesSQLBatch;
 
     @Value("${jdbc.sql.find.genres.by.movie.id}")
     private String jdbcFindGenresByMovieIdSQL;
@@ -68,6 +67,9 @@ public class PersistenceContext {
     @Value("${jdbc.sql.find.user.by.id}")
     private String jdbcFindUserByIdSQL;
 
+    @Value("${jdbc.sql.find.user.by.email.password}")
+    private String jdbcFindUserByEmailAndPasswordSQL;
+
     @Value("${jdbc.sql.find.all.users}")
     private String jdbcFindAllUsersSQL;
 
@@ -76,6 +78,24 @@ public class PersistenceContext {
 
     @Value("${jdbc.sql.find.reviews.by.movie.id}")
     private String jdbcFindReviewsByMovieIdSQL;
+
+    @Value("${jdbc.sql.insert.review}")
+    private String jdbcInsertReviewSQL;
+
+    @Value("${jdbc.sql.delete.review}")
+    private String jdbcDeleteReviewSQL;
+
+    @Value("${jdbc.sql.find.movies.by.genre.predicate}")
+    private String jdbcFindMoviesByGenrePredicate;
+
+    @Value("${jdbc.sql.find.movies.by.title.predicate}")
+    private String jdbcFindMoviesByTitlePredicate;
+
+    @Value("${jdbc.sql.find.movies.by.year.predicate}")
+    private String jdbcFindMoviesByYearPredicate;
+
+    @Value("${jdbc.sql.find.movies.by.country.predicate}")
+    private String jdbcFindMoviesByCountryPredicate;
 
     @Bean
     public DataSource dataSource() {
@@ -95,11 +115,6 @@ public class PersistenceContext {
     @Bean
     public String getDataPath() {
         return jdbcDataPath;
-    }
-
-    @Bean
-    public String getTablesPath() {
-        return jdbcTablesPath;
     }
 
     @Bean
@@ -128,8 +143,18 @@ public class PersistenceContext {
     }
 
     @Bean
+    public String findMovieByIdSQLBatch() {
+        return jdbcFindMovieByIdSQLBatch;
+    }
+
+    @Bean
     public String findAllMoviesSQL() {
         return jdbcFindAllMoviesSQL;
+    }
+
+    @Bean
+    public String findAllMoviesSQLBatch() {
+        return jdbcFindAllMoviesSQLBatch;
     }
 
     @Bean
@@ -148,6 +173,12 @@ public class PersistenceContext {
     }
 
     @Bean
+    public String findUserByEmailAndPasswordSQL() {
+        return jdbcFindUserByEmailAndPasswordSQL;
+    }
+
+
+    @Bean
     public String findAllUsersSQL() {
         return jdbcFindAllUsersSQL;
     }
@@ -160,6 +191,36 @@ public class PersistenceContext {
     @Bean
     public String findReviewsByMovieIdSQL() {
         return jdbcFindReviewsByMovieIdSQL;
+    }
+
+    @Bean
+    public String insertReviewSQL() {
+        return jdbcInsertReviewSQL;
+    }
+
+    @Bean
+    public String deleteReviewSQL() {
+        return jdbcDeleteReviewSQL;
+    }
+
+    @Bean
+    public String findMoviesByGenrePredicate() {
+        return jdbcFindMoviesByGenrePredicate;
+    }
+
+    @Bean
+    public String findMoviesByTitlePredicate() {
+        return jdbcFindMoviesByTitlePredicate;
+    }
+
+    @Bean
+    public String findMoviesByYearPredicate() {
+        return jdbcFindMoviesByYearPredicate;
+    }
+
+    @Bean
+    public String findMoviesByCountryPredicate() {
+        return jdbcFindMoviesByCountryPredicate;
     }
 
     @Bean
