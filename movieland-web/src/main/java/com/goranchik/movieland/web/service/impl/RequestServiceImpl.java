@@ -50,8 +50,8 @@ public class RequestServiceImpl implements RequestService {
                                                Object[] params) {
         D dto = getDtoParams(dtoClazz, params);
         return jsonConverter.toJson(
-                function.apply(dto).stream().map(movie ->
-                        converter.convert(movie, viewDtoClazz)).collect(Collectors.toList())
+                function.apply(dto).stream().map(e ->
+                        converter.convert(e, viewDtoClazz)).collect(Collectors.toList())
         );
     }
 
@@ -62,8 +62,8 @@ public class RequestServiceImpl implements RequestService {
                                              String json) {
         return jsonConverter.toJson(
                 function.apply(jsonConverter.jsonToObj(json, dtoClazz))
-                        .stream().map((movie) ->
-                        converter.convert(movie, viewDtoClazz)).collect(Collectors.toList())
+                        .stream().map((e) ->
+                        converter.convert(e, viewDtoClazz)).collect(Collectors.toList())
         );
     }
 
