@@ -27,8 +27,8 @@ public class MovieBatchRowMapper implements RowMapper<Movie> {
         movie.setNameOriginal(rs.getString(MOVIE.getFieldSet().get(1)));
         movie.setYear(rs.getInt(MOVIE.getFieldSet().get(2)));
         movie.setDescription(rs.getString(MOVIE.getFieldSet().get(3)));
-        movie.setRating(rs.getFloat(MOVIE.getFieldSet().get(4)));
-        movie.setPrice(rs.getFloat(MOVIE.getFieldSet().get(5)));
+        movie.setRating(rs.getDouble(MOVIE.getFieldSet().get(4)));
+        movie.setPrice(rs.getDouble(MOVIE.getFieldSet().get(5)));
         movie.setGenres(
                 Arrays.stream(rs.getString("genres").split(ENTITY_DELIMITER))
                         .map(g -> new Genre(Integer.parseInt(g))).collect(Collectors.toSet()));

@@ -37,6 +37,11 @@ public class PopulateDBService {
     @Qualifier(REVIEW_SQL_LAUNCH_GENERATOR)
     private SqlLaunchGeneratorService reviewSqlGenereator;
 
+    @Autowired
+    @Qualifier(CREATE_TABLE_SQL_GENERATOR)
+    private SqlLaunchGeneratorService createTableSqlGenereator;
+
+
     private void runSQL(String sql) {
         jdbcTemplate.execute(sql);
     }
@@ -47,5 +52,6 @@ public class PopulateDBService {
         runSQL(userSqlGenereator.getPopulateTableSql(USERS.getName()));
         runSQL(movieSqlGenereator.getPopulateTableSql(MOVIE.getName()));
         runSQL(reviewSqlGenereator.getPopulateTableSql(REVIEW.getName()));
+        runSQL(createTableSqlGenereator.getCreateTableSql(RATING.getName()));
     }
 }

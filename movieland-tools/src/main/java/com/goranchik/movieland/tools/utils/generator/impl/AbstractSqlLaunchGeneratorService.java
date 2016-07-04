@@ -5,12 +5,14 @@ import com.goranchik.movieland.tools.utils.generator.SqlLaunchGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 
 import static com.goranchik.movieland.tools.Constants.*;
 
 /**
  * Created by Ihor on 6/8/2016.
  */
+@Service(CREATE_TABLE_SQL_GENERATOR)
 public abstract class AbstractSqlLaunchGeneratorService implements SqlLaunchGeneratorService {
 
     @Autowired

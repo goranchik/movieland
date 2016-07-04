@@ -22,7 +22,8 @@ public enum Table {
     COUNTRY("country"),
     MOVIE_COUNTRY("movie_country"),
     MOVIE_GENRE("movie_genre"),
-    REVIEW("review");
+    REVIEW("review"),
+    RATING("rating");
 
     private String name;
     private String dataFields;

@@ -13,11 +13,12 @@ import java.util.Arrays;
 @NoArgsConstructor
 @Getter
 public enum Role {
-    GUEST(0),
-    USER(1),
-    ADMIN(2);
+    GUEST(0, "guest"),
+    USER(1, "user"),
+    ADMIN(2, "admin");
 
     private int id;
+    private String name;
 
     public static Role getById(int id) {
         return Arrays.stream(Role.values())

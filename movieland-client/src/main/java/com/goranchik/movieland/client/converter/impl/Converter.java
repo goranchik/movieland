@@ -30,7 +30,6 @@ public class Converter {
     @Autowired
     private EntityConverter<ReviewDto, Review> reviewConverter;
 
-
     public <T, E> T convert(E entity, Class<T> clazz) {
         if (entity.getClass().equals(Movie.class)){
             if (clazz.equals(MovieSingleDto.class)){

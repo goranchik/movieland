@@ -21,6 +21,7 @@ public final class Constants {
     public static final String USER_SQL_LAUNCH_GENERATOR = "userSqlLaunchGenerator";
     public static final String MOVIE_SQL_LAUNCH_GENERATOR = "movieSqlLaunchGenerator";
     public static final String REVIEW_SQL_LAUNCH_GENERATOR = "reviewSqlLaunchGenerator";
+    public static final String CREATE_TABLE_SQL_GENERATOR = "createTableSqlGenerator";
 
     public static final String INSERT_SQL = "INSERT INTO %s (%s) VALUES (%s);\n";
     public static final String DROP_TABLE_SQL = "DROP TABLE IF EXISTS %s CASCADE;\n";

@@ -20,9 +20,8 @@ import static com.goranchik.movieland.tools.enums.RequestType.AUTH_REQUEST;
  * Created by Ihor on 6/8/2016.
  */
 @RestController
-@RequestMapping(value = "/v1", produces = MediaType.TEXT_PLAIN_VALUE)
+@RequestMapping(value = "/v1/login", produces = MediaType.TEXT_PLAIN_VALUE)
 public class UserContoller {
-    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private SecurityService securityService;
@@ -30,7 +29,7 @@ public class UserContoller {
     @Autowired
     private RequestService requestService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     @Request(type = AUTH_REQUEST)
     public String authRequest(@RequestBody String authRequest, HttpServletResponse response) {
         String json = requestService.handleOneByJson(

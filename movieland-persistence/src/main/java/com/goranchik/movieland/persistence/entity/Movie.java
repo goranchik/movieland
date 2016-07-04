@@ -15,8 +15,8 @@ public class Movie {
     private String nameOriginal;
     private int year;
     private String description;
-    private float rating;
-    private float price;
+    private double rating;
+    private double price;
     private Set<Genre> genres;
     private Set<Country> countries;
 
