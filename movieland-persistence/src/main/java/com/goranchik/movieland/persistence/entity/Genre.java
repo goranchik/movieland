@@ -1,7 +1,7 @@
 package com.goranchik.movieland.persistence.entity;
 
-import com.goranchik.movieland.tools.annotation.CacheKey;
 import com.goranchik.movieland.tools.Copyable;
+import com.goranchik.movieland.tools.annotation.CacheKey;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

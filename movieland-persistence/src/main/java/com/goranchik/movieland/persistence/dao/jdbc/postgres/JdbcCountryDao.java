@@ -4,7 +4,6 @@ import com.goranchik.movieland.persistence.dao.CountryDao;
 import com.goranchik.movieland.persistence.entity.Country;
 import com.goranchik.movieland.tools.annotation.CacheInit;
 import com.goranchik.movieland.tools.annotation.Cacheable;
-import com.goranchik.movieland.tools.enums.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

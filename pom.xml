@@ -10,10 +10,10 @@
     <name>movieland</name>
 
     <modules>
-        <module>movieland-client</module>
+        <module>movieland-web</module>
         <module>movieland-tools</module>
         <module>movieland-persistence</module>
-        <module>movieland-service</module>
+        <module>movieland-client</module>
     </modules>
 
     <properties>

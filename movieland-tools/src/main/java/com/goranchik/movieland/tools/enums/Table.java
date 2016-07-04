@@ -1,7 +1,6 @@
 package com.goranchik.movieland.tools.enums;
 
 import com.goranchik.movieland.tools.utils.PropTools;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

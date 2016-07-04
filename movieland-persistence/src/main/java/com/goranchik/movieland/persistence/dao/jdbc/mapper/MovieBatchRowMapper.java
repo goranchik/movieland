@@ -1,9 +1,9 @@
 package com.goranchik.movieland.persistence.dao.jdbc.mapper;
 
+
 import com.goranchik.movieland.persistence.entity.Country;
 import com.goranchik.movieland.persistence.entity.Genre;
 import com.goranchik.movieland.persistence.entity.Movie;
-
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -11,7 +11,8 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static com.goranchik.movieland.tools.Constants.*;
+import static com.goranchik.movieland.tools.Constants.ENTITY_DELIMITER;
+import static com.goranchik.movieland.tools.Constants.FIELD_ID;
 import static com.goranchik.movieland.tools.enums.Table.MOVIE;
 
 /**

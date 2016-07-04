@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 
-import static com.goranchik.movieland.tools.enums.Table.*;
 import static com.goranchik.movieland.tools.Constants.*;
+import static com.goranchik.movieland.tools.enums.Table.*;
 
 /**
  * Created by Ihor on 6/8/2016.

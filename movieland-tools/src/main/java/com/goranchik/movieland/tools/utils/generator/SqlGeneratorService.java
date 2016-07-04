@@ -1,7 +1,7 @@
 package com.goranchik.movieland.tools.utils.generator;
 
-import com.goranchik.movieland.tools.dto.MovieSearchDto;
-import com.goranchik.movieland.tools.dto.MovieSortDto;
+import com.goranchik.movieland.tools.dto.movie.MovieSearchDto;
+import com.goranchik.movieland.tools.dto.movie.MovieSortDto;
 
 /**
  * Created by Ihor on 6/17/2016.

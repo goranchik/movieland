@@ -1,13 +1,10 @@
 package com.goranchik.movieland.tools.utils.generator.impl;
 
 import com.goranchik.movieland.tools.enums.Table;
-import com.goranchik.movieland.tools.utils.PropTools;
 import com.goranchik.movieland.tools.utils.generator.SqlLaunchGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-
-import java.util.Properties;
 
 import static com.goranchik.movieland.tools.Constants.*;
 

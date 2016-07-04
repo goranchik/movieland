@@ -1,13 +1,13 @@
 package com.goranchik.movieland.persistence.dao.jdbc.mapper;
 
+
 import com.goranchik.movieland.persistence.entity.Movie;
 import com.goranchik.movieland.persistence.entity.Review;
 import com.goranchik.movieland.persistence.entity.User;
-import com.goranchik.movieland.tools.utils.PropTools;
 import org.springframework.jdbc.core.RowMapper;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 
 import static com.goranchik.movieland.tools.enums.Table.REVIEW;
 

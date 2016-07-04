@@ -2,16 +2,13 @@ package com.goranchik.movieland.persistence.dao.jdbc.postgres;
 
 import com.goranchik.movieland.persistence.dao.GenreDao;
 import com.goranchik.movieland.persistence.entity.Genre;
-
 import com.goranchik.movieland.tools.annotation.CacheInit;
 import com.goranchik.movieland.tools.annotation.Cacheable;
-import com.goranchik.movieland.tools.enums.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;

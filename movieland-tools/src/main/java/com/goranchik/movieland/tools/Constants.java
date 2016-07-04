@@ -33,6 +33,11 @@ public final class Constants {
     public static final String SPACE = " ";
     public static final String FIELD_ID = "id";
 
+    public static final String CACHE_PRINCIPAL = "principal";
+
+    public static final String COOKIE_TOKEN = "auth-token";
+    public static final String COOKIE_PATH = "/v1/";
+
     public static final Long REVIEW_LIMIT = 2L;
 
 }

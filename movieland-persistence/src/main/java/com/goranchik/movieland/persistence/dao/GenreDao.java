@@ -1,7 +1,7 @@
 package com.goranchik.movieland.persistence.dao;
 
+
 import com.goranchik.movieland.persistence.entity.Genre;
-import com.goranchik.movieland.tools.annotation.Cacheable;
 
 import java.util.List;
 import java.util.Set;

@@ -1,9 +1,9 @@
 package com.goranchik.movieland.tools.utils.generator.impl;
 
-
 import com.goranchik.movieland.tools.enums.Table;
 import com.goranchik.movieland.tools.utils.generator.SqlLaunchGeneratorService;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

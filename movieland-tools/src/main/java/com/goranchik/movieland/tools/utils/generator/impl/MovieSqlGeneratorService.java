@@ -1,8 +1,7 @@
 package com.goranchik.movieland.tools.utils.generator.impl;
 
-
-import com.goranchik.movieland.tools.dto.MovieSearchDto;
-import com.goranchik.movieland.tools.dto.MovieSortDto;
+import com.goranchik.movieland.tools.dto.movie.MovieSearchDto;
+import com.goranchik.movieland.tools.dto.movie.MovieSortDto;
 import com.goranchik.movieland.tools.utils.generator.SqlGeneratorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,5 +1,6 @@
 package com.goranchik.movieland.persistence.entity;
 
+import com.goranchik.movieland.tools.enums.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private Role role;
 
     public User(int id){
         this.id = id;

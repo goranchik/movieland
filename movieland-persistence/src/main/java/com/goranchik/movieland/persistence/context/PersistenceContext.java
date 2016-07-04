@@ -16,8 +16,7 @@ import javax.sql.DataSource;
 @ComponentScan({"com.goranchik.movieland.persistence.dao",
                 "com.goranchik.movieland.persistence.utils"})
 @Import(ToolsContext.class)
-@PropertySource({"classpath:config/jdbc.properties",
-                 "classpath:config/cache.properties"})
+@PropertySource("classpath:jdbc.properties")
 public class PersistenceContext {
 
     @Value("${jdbc.driver.classname}")
@@ -68,6 +67,9 @@ public class PersistenceContext {
     @Value("${jdbc.sql.find.user.by.id}")
     private String jdbcFindUserByIdSQL;
 
+    @Value("${jdbc.sql.find.user.by.email.password}")
+    private String jdbcFindUserByEmailAndPasswordSQL;
+
     @Value("${jdbc.sql.find.all.users}")
     private String jdbcFindAllUsersSQL;
 
@@ -88,12 +90,6 @@ public class PersistenceContext {
 
     @Value("${jdbc.sql.find.movies.by.country.predicate}")
     private String jdbcFindMoviesByCountryPredicate;
-
-    @Value("${cache.default.init.method}")
-    private String cacheDefaultInitMethod;
-
-    @Value("${cache.default.key}")
-    private String cacheDefaultKey;
 
     @Bean
     public DataSource dataSource() {
@@ -171,6 +167,12 @@ public class PersistenceContext {
     }
 
     @Bean
+    public String findUserByEmailAndPasswordSQL() {
+        return jdbcFindUserByEmailAndPasswordSQL;
+    }
+
+
+    @Bean
     public String findAllUsersSQL() {
         return jdbcFindAllUsersSQL;
     }
@@ -203,16 +205,6 @@ public class PersistenceContext {
     @Bean
     public String findMoviesByCountryPredicate() {
         return jdbcFindMoviesByCountryPredicate;
-    }
-
-    @Bean
-    public String getCacheDefaultInitMethod() {
-        return cacheDefaultInitMethod;
-    }
-
-    @Bean
-    public String getCacheDefaultKey() {
-        return cacheDefaultKey;
     }
 
     @Bean

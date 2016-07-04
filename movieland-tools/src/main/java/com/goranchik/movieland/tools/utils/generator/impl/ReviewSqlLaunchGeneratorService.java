@@ -3,6 +3,7 @@ package com.goranchik.movieland.tools.utils.generator.impl;
 import com.goranchik.movieland.tools.enums.Table;
 import com.goranchik.movieland.tools.utils.generator.SqlLaunchGeneratorService;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -11,7 +12,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static com.goranchik.movieland.tools.Constants.*;
-import static com.goranchik.movieland.tools.enums.Table.*;
+import static com.goranchik.movieland.tools.enums.Table.MOVIE;
+import static com.goranchik.movieland.tools.enums.Table.USERS;
 
 /**
  * Created by Ihor on 6/7/2016.

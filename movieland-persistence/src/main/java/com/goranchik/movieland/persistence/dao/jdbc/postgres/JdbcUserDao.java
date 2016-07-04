@@ -1,6 +1,7 @@
 package com.goranchik.movieland.persistence.dao.jdbc.postgres;
 
 import com.goranchik.movieland.persistence.dao.UserDao;
+import com.goranchik.movieland.persistence.dao.jdbc.mapper.UserRowMapper;
 import com.goranchik.movieland.persistence.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ import java.util.List;
 @Repository
 public class JdbcUserDao implements UserDao {
     private final Logger log = LoggerFactory.getLogger(getClass());
-    private BeanPropertyRowMapper<User> mapper = new BeanPropertyRowMapper<>(User.class);
+    private UserRowMapper mapper = new UserRowMapper();
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -27,6 +28,9 @@ public class JdbcUserDao implements UserDao {
 
     @Autowired
     private String findAllUsersSQL;
+
+    @Autowired
+    private String findUserByEmailAndPasswordSQL;
 
     @Override
     public User findById(int id) {
@@ -44,6 +48,11 @@ public class JdbcUserDao implements UserDao {
         List<User> users = jdbcTemplate.query(findAllUsersSQL, mapper);
         log.info("Finish query to find all users from DB. It took {} ms", System.currentTimeMillis() - startTime);
         return users;
+    }
+
+    @Override
+    public User findByEmailAndPassword(String email, String password) {
+        return jdbcTemplate.queryForObject(findUserByEmailAndPasswordSQL, new Object[]{email, password}, mapper);
     }
 
 
